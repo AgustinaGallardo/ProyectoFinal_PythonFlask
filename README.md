@@ -38,14 +38,11 @@ con el comando pip install -r requirements.txt.
 
  
 Paso 1: Crear el archivo .env
-
-Dentro de la carpeta , crea un nuevo archivo llamado .env ( el nombre comienza con un punto para que sea un archivo oculto).
+Dentro de la carpeta, crea un nuevo archivo llamado .env ( el nombre comienza con un punto para que sea un archivo oculto).
 Paso 2: Agregar variables de entorno al archivo .env
-
 Paso 3: Configurar .gitignore
  Crea o edita un archivo llamado .gitignore. Este archivo se utiliza para especificar qué archivos y carpetas no deben incluirse en el control de versiones de Git.
 Dentro del archivo .gitignore,  agregar una línea para ignorar el archivo .env.
-
 Si quieren desactivar el viertual env 
 deactivate  # Para salir del entorno virtual actual
 rm -r /ruta/a/tu/virtualenv  # Elimina el entorno virtual

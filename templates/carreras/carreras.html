@@ -1,0 +1,42 @@
+{% extends 'comun/base.html' %}
+{% import 'comun/paginado.html' as paginado %}
+{% import 'comun/modal_eliminar.html' as modal_eliminar %}
+
+{% block content %}
+<div class="container p-2 small"></div>
+	<h2 class="text-center">Carreras</h2>
+	<!--<a class="btn btn-success mb-3" href="{{ url_for('routes_personas.crear_persona') }}">Agregar carrera</a>-->
+
+	<div id="personas-list">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Carrera</th>
+					<th>Facultad</th>
+					<th>Universidad</th>
+					<th>Campus</th>
+					<!-- ... (otros encabezados) ... -->
+				</tr>
+			</thead>
+			<tbody>
+				{% for carrera in carreras.items %}
+				<tr>
+					<td>{{ carrera.id }}</td>
+					<td>{{ carrera.facultad }}</td>
+					<td>{{ carrera.universidad }}</td>
+					<td>{{ carrera.campus }}</td>
+					<td>{{ carrera.programa }}</td>
+				</tr>
+				<!-- Modal para confirmar la eliminación -->
+
+				{% endfor %}
+			</tbody>
+		</table>
+
+		{{ paginado.render_paginado('routes_carreras.obtener_lista_paginada', carreras) }}
+
+<a class="btn btn-primary" href="{{ url_for('routes.index') }}">Volver a Inicio</a>
+</div>
+
+{% endblock %}

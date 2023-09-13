@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container">
     <h1>Bienvenido a mi aplicación Flask API REST</h1>
-     <a class="btn btn-info" href="{{ url_for('routes_personas.obtener_lista_paginada') }}">Personas</a>
+        <a class="btn btn-info" href="{{ url_for('routes_personas.obtener_lista_paginada') }}">Personas</a>
+        <a class="btn btn-info" href="{{ url_for('routes_carreras.obtener_lista_paginada') }}">Carreras</a>
 </div>
 {% endblock %}

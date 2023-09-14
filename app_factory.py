@@ -8,6 +8,7 @@ from modules.routes_carreras import carreras_bp
 from modules.apis.personas import PersonasResource
 from modules.apis.lugares import LugaresResource
 from modules.apis.generos import GenerosResource
+from modules.apis.carreras import CarrerasResource
 from modules.models.base import db 
 from config import db_connector, db_user, db_password, db_ip_address, db_name
 from flask_jwt_extended import JWTManager
@@ -39,5 +40,6 @@ def create_app():
 	api.add_resource(PersonasResource, '/api/personas', '/api/personas/<int:persona_id>')
 	api.add_resource(LugaresResource, '/api/lugares')
 	api.add_resource(GenerosResource, '/api/generos')
+	api.add_resource(CarrerasResource, '/api/carreras/editar')
 
 	return app

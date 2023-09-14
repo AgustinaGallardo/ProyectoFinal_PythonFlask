@@ -51,3 +51,33 @@ class CarrerasResource(Resource):
             return {"Exito": resultado["Exito"], "MensajePorFallo": resultado["MensajePorFallo"], "Resultado": carrera_data}, 201
         else:
             return {"Exito": resultado["Exito"], "MensajePorFallo": resultado["MensajePorFallo"], "Resultado": None}, 400
+
+
+            """
+        
+    def editar_carrera(self, id, **kwargs):
+        
+        carrera = Carrera.query.get(id)
+
+        if carrera is None:
+            self.Exito = False
+            self.MensajePorFallo = "La carrera no existe"
+            return self.obtenerResultado()
+
+        if 'programa' in kwargs:
+            carrera.programa = Programa.crear_y_obtener(nombre=kwargs['programa'])
+
+        if 'facultad' in kwargs:
+            carrera.facultad = Facultad.crear_y_obtener(nombre=kwargs['facultad'])
+
+        if 'universidad' in kwargs:
+            carrera.universidad = Universidad.crear_y_obtener(nombre=kwargs['universidad'])
+
+        if 'campus' in kwargs:
+            carrera.campus = Campus.crear_y_obtener(nombre=kwargs['campus'])
+
+        resultado_guardar = carrera.guardar()
+        self.Exito = resultado_guardar["Exito"]
+        self.MensajePorFallo = resultado_guardar["MensajePorFallo"]
+
+        return self.obtenerResultado()    """

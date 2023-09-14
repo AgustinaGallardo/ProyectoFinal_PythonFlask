@@ -37,36 +37,17 @@ class CarrerasResource(Resource):
         else:
             return {"Exito": False, "MensajePorFallo": "Recurso no definido", "Resultado": None}, 400
         
-"""
-    @CarrerasResource.route('/carreras', methods=['POST'])
-    @login_required
-    def crear_carrera(self):
-        data = request.form  # Cambiado a request.form para obtener datos de formulario
-
-        carrera_type = data.get('carrera_type')
-
-        if carrera_type == 'crear_carrera':
-            # Obtener los datos del formulario
-            facultad = data.get('facultad')
-            universidad = data.get('universidad')
-            campus = data.get('campus')
-            programa = data.get('programa')
-
-            # Lógica para crear la carrera utilizando tu gestor de carreras
-            resultado = gestor_carrera().crear_carrera(
-                programa=programa,
-                facultad=facultad,
-                universidad=universidad,
-                campus=campus               
-            )
-
+    @jwt_or_login_required()
+    def post(self):
+        args = request.get_json() 
+        resultado = gestor_carrera().crear(**args)
         if resultado["Exito"]:
-            flash('Carrera creada correctamente', 'success')
-                # Asegúrate de tener un método para redireccionar después de crear la carrera
-            return redirect(url_for('nombre_de_ruta_redireccion'))  # Reemplaza 'nombre_de_ruta_redireccion' por la ruta adecuada
+            carrera = resultado["Resultado"]
+            carrera_data = carrera.serialize()
+            carrera_data["programa"] = carrera.programa.nombre
+            carrera_data["facultad"] = carrera.facultad.nombre
+            carrera_data["universidad"] = carrera.universidad.nombre
+            carrera_data["campus"] = carrera.campus.nombre
+            return {"Exito": resultado["Exito"], "MensajePorFallo": resultado["MensajePorFallo"], "Resultado": carrera_data}, 201
         else:
-            flash(resultado["MensajePorFallo"], 'warning')
-                # Asegúrate de tener un método para redireccionar en caso de error
-            return redirect(url_for('nombre_de_ruta_error'))  # Reemplaza 'nombre_de_ruta_error' por la ruta adecuada
-        else:
-            return {"Exito": False, "MensajePorFallo": "Recurso no definido", "Resultado": None}, 400   """
+            return {"Exito": resultado["Exito"], "MensajePorFallo": resultado["MensajePorFallo"], "Resultado": None}, 400

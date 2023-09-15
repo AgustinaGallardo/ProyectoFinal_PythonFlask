@@ -1,15 +1,40 @@
 {% extends 'comun/base.html' %}
 
 {% block content %}
-	<div class="container">
-		<h1>Login</h1>
-		<form method="post" action="/login">
-			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-			<label for="username">Username:</label>
-			<input type="text" name="username" required><br>
-			<label for="password">Password:</label>
-			<input type="password" name="password" required><br>
-			<input type="submit" value="Login">
-		</form>
+
+<!-- Button trigger modal -->
+<div class="d-flex justify-content-center mt-3">
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+		Iniciar Sección
+	</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Iniciar Sección como Administrador</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<h1>Login</h1>
+					<form method="post" action="/login">
+						<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+						<label for="username">Username:</label>
+						<input type="text" name="username" required><br>
+						<label for="password">Password:</label>
+						<input type="password" name="password" required><br>
+						
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+					<input type="submit" value="Login" class="btn btn-primary"></input>
+				</div>
+			</form>
+		</div>
+		</div>
 	</div>
 {% endblock %}

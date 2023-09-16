@@ -17,6 +17,37 @@ def obtener_lista_paginada():
 print(obtener_lista_paginada)
 
 
+@carreras_bp.route('/carreras/<int:carrera_id>/editar', methods=['GET', 'POST'])
+@login_required
+def editar_carrera(carrera_id):
+    if request.method == 'POST':
+        formulario_data = request.form.to_dict()
+        resultado=gestor_carrera().editar(carrera_id, **formulario_data)
+        if resultado["Exito"]:
+            flash('Carrera actualizada correctamente', 'success')
+            return redirect(url_for('routes_carreras.obtener_lista_paginada'))
+        else:
+            flash(resultado["MensajePorFallo"], 'warning')
+
+    resultado=gestor_carrera().obtener(carrera_id)
+    if resultado["Exito"]:
+        carrera=resultado["Resultado"]
+        return render_template('carreras/editar_carrera.html', carrera=carrera, csrf=csrf)
+    else:
+        flash(resultado["MensajePorFallo"], 'warning')
+        return redirect(url_for('routes_carreras.obtener_lista_paginada'))
+    
+@carreras_bp.route('/carreras/<int:carrera_id>', methods=['POST'])
+@login_required
+def eliminar_carrera(carrera_id):
+    resultado=gestor_carrera().eliminar(carrera_id)
+    if resultado["Exito"]:
+        flash('Carrera eliminada correctamente', 'success')
+    else:
+        flash('Error al eliminar carrera', 'success')
+    return redirect(url_for('routes_carreras.obtener_lista_paginada'))
+
+
 @carreras_bp.route('/carreras/crear', methods=['GET', 'POST'])
 @login_required
 def crear_carrera():
@@ -24,6 +55,7 @@ def crear_carrera():
     if request.method == 'POST':
         formulario_data = request.form.to_dict()
         
+       
         # Obtener los valores de facultad, universidad, campus y programa
         facultad = Facultad.query.filter_by(nombre=formulario_data.get('facultad')).first()
         universidad = Universidad.query.filter_by(nombre=formulario_data.get('universidad')).first()

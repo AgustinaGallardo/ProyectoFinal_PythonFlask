@@ -48,3 +48,40 @@ def crear_carrera():
                 flash(resultado["MensajePorFallo"], 'warning')
 
     return render_template('carreras/crear_carrera.html', formulario_data=formulario_data, csrf=csrf)
+
+
+
+@carreras_bp.route('/carreras/editar/<int:carrera_id>', methods=['GET', 'POST'])
+@login_required
+def editar_carrera(carrera_id):
+    formulario_data = {}
+    carrera = gestor_carrera().obtener_por_id(carrera_id)
+
+    if carrera is None:
+        flash('Carrera no encontrada', 'danger')
+        return redirect(url_for('routes_carreras.obtener_lista_paginada'))
+
+    if request.method == 'POST':
+        formulario_data = request.form.to_dict()
+
+        # Realiza las actualizaciones necesarias en la carrera con los datos del formulario
+        carrera.facultad = Facultad.query.filter_by(nombre=formulario_data.get('facultad')).first()
+        carrera.universidad = Universidad.query.filter_by(nombre=formulario_data.get('universidad')).first()
+        carrera.campus = Campus.query.filter_by(nombre=formulario_data.get('campus')).first()
+        carrera.programa = Programa.query.filter_by(nombre=formulario_data.get('programa')).first()
+
+        if None in (carrera.facultad, carrera.universidad, carrera.campus, carrera.programa):
+            flash('Error: Asegúrate de seleccionar valores válidos para facultad, universidad, campus y programa.', 'warning')
+        else:
+            # Realiza la actualización en la base de datos
+            resultado = gestor_carrera().editar_carrera(carrera)
+
+            if resultado.Exito:
+                flash('Carrera editada correctamente', 'success')
+                return redirect(url_for('routes_carreras.obtener_lista_paginada'))
+            else:
+                flash(resultado.MensajePorFallo, 'warning')
+
+    return render_template('carreras/editar_carrera.html', formulario_data=formulario_data, carrera=carrera, csrf=csrf)
+
+    

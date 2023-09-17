@@ -3,40 +3,43 @@
 {% import 'comun/modal_eliminar.html' as modal_eliminar %}
 
 {% block content %}
-<div class="container p-2 small"></div>
-	<h2 class="text-center">Carreras</h2>
-	<a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>    
-	
-	<div id="personas-list">
-		<table class="table">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Programa</th>
-					<th>Facultad</th>
-					<th>Universidad</th>
-					<th>Campus</th>
-					<!-- ... (otros encabezados) ... -->
-				</tr>
-			</thead>
-			<tbody>
-				{% for carrera in carreras.items %}
-				<tr>
-					<td>{{ carrera.id }}</td>
-					<td>{{ carrera.programa.nombre }}</td>
-					<td>{{ carrera.facultad.nombre }}</td>
-					<td>{{  carrera.universidad.nombre}}</td>
-					<td>{{ carrera.campus.nombre }}</td>
-				</tr>
-				<!-- Modal para confirmar la eliminación -->
-
-				{% endfor %}
-			</tbody>
-		</table>
-
-		{{ paginado.render_paginado('routes_carreras.obtener_lista_paginada', carreras) }}
-
-<a class="btn btn-primary" href="{{ url_for('routes.index') }}">Volver a Inicio</a>
+<div class="container p-2 small">
+    <h2 class="text-center">Carreras</h2>
+    <a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>
+    
+    <div id="personas-list">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Programa</th>
+                    <th>Facultad</th>
+                    <th>Universidad</th>
+                    <th>Campus</th>
+                    <!-- ... (otros encabezados) ... -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for carrera in carreras.items %}
+                <tr>
+                    <td>{{ carrera.id }}</td>
+                    <td>{{ carrera.programa.nombre }}</td>
+                    <td>{{ carrera.facultad.nombre }}</td>
+                    <td>{{  carrera.universidad.nombre}}</td>
+                    <td>{{ carrera.campus.nombre }}</td>
+                    <!-- Modal para confirmar la eliminación -->
+                    <td>
+                        <a href="{{ url_for('routes_carreras.editar_carrera', carrera_id=carrera.id) }}"
+                            class="btn btn-primary">Editar</a>
+                        <button class="btn btn-danger" data-toggle="modal"
+                            data-target="#eliminarModal{{ carrera.id }}">Eliminar</button>
+                    </td>
+                </tr> 
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ paginado.render_paginado('routes_carreras.obtener_lista_paginada', carreras) }}
+        <a class="btn btn-primary" href="{{ url_for('routes.index') }}">Volver a Inicio</a>
+    </div>
 </div>
-
 {% endblock %}

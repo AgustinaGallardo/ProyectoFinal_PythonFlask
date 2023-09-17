@@ -93,4 +93,45 @@ class gestor_carrera(ResponseMessage):
 		)
 		return campus
 
-			
+	def editar_carrera(self, carrera_id, **kwargs):
+			# Busca la carrera por su ID
+			carrera = Carrera.query.get(carrera_id)
+
+			if not carrera:
+				# Si no se encuentra la carrera, devuelve un mensaje de error
+				return ResponseMessage(
+					Resultado=None,
+					Exito=False,
+					MensajePorFallo='La carrera no fue encontrada.'
+				)
+
+			# Actualiza los campos de la carrera con los valores proporcionados
+			if 'facultad' in kwargs:
+				carrera.facultad = kwargs['facultad']
+			if 'universidad' in kwargs:
+				carrera.universidad = kwargs['universidad']
+			if 'campus' in kwargs:
+				carrera.campus = kwargs['campus']
+			if 'programa' in kwargs:
+				carrera.programa = kwargs['programa']
+
+			# Guarda los cambios en la base de datos
+			resultado_actualizar = carrera.guardar()
+
+			# Devuelve el resultado de la operación
+			return ResponseMessage(
+				Resultado=resultado_actualizar["Resultado"],
+				Exito=resultado_actualizar["Exito"],
+				MensajePorFallo=resultado_actualizar["MensajePorFallo"]
+			)
+	
+	def obtener_por_id(self, carrera_id):
+            # Busca la carrera por su ID
+            carrera = Carrera.query.get(carrera_id)
+
+            if not carrera:
+                # Si no se encuentra la carrera, devuelve None
+                return None
+
+            # Si se encuentra la carrera, devuelve el objeto de carrera
+            return carrera

@@ -53,8 +53,8 @@ class CarrerasResource(Resource):
             return {"Exito": resultado["Exito"], "MensajePorFallo": resultado["MensajePorFallo"], "Resultado": None}, 400
 
 
-            """
         
+"""
     def editar_carrera(self, id, **kwargs):
         
         carrera = Carrera.query.get(id)
@@ -80,4 +80,6 @@ class CarrerasResource(Resource):
         self.Exito = resultado_guardar["Exito"]
         self.MensajePorFallo = resultado_guardar["MensajePorFallo"]
 
-        return self.obtenerResultado()    """
+        return self.obtenerResultado()    
+
+        """

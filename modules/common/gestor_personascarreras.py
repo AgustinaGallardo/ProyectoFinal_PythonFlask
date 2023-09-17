@@ -1,4 +1,4 @@
-"""from modules.common.gestor_comun import ResponseMessage
+from modules.common.gestor_comun import ResponseMessage
 from modules.models.entities import personasCarreras,TipoPersona,Carrera,Facultad,Campus,Programa,Universidad,db
 
 class Gestor_Personas_Carreras(ResponseMessage):
@@ -71,4 +71,4 @@ class Gestor_Personas_Carreras(ResponseMessage):
             self.MensajePorFallo = "No se encontraron personas para esta carrera y tipo."
             return []
 
-            """
+            

@@ -21,7 +21,8 @@ def create_app():
 	app.config['SQLALCHEMY_DATABASE_URI'] = f"{db_connector}://{db_user}:{db_password}@{db_ip_address}/{db_name}"
 
 	db.init_app(app)
-	api=Api(app)
+	#api=Api(app)
+	api=Api(app,decorators=[csrf.exempt])
 	csrf.init_app(app)
 	jwt = JWTManager(app)
 	login_manager.init_app(app)
@@ -38,7 +39,7 @@ def create_app():
 	app.register_blueprint(carreras_bp, url_prefix='/carreras', name='carreras_blueprint')
 	app.register_error_handler(404, page_not_found)
 	api.add_resource(PersonasResource, '/api/personas', '/api/personas/<int:persona_id>')
-	api.add_resource(LugaresResource, '/api/lugares')
+	api.add_resource(LugaresResource, '/api/lugares', '/api/lugares/<string:lugar_type>')
 	api.add_resource(GenerosResource, '/api/generos')
 	api.add_resource(CarrerasResource, '/api/carreras/editar')
 

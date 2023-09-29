@@ -1,0 +1,54 @@
+{% macro campo_tipo(selected_tipo) %}
+<label for="tipo" class="form-label">Tipo</label>
+<select class="form-control" id="tipo" name="tipo">
+	<option value="" disabled selected>Seleccionar Tipo</option>
+	<!-- Opciones cargadas desde la API -->
+</select>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const tipoSelect = document.getElementById("tipo");
+		const seleccionAnterior = "{{ selected_tipo }}"; // Valor enviado desde la macro
+
+		// Cargar opciones desde la API
+		fetch('/api/tipos')
+			.then(response => response.json())
+			.then(data => {
+				if (data.Exito) {
+					const tipos = data.Resultado;
+					tipos.forEach(tipo => {
+						const option = document.createElement("option");
+						option.value = tipo.nombre;
+						option.textContent = tipo.nombre;
+						tipoSelect.appendChild(option);
+					});
+
+					// Seleccionar el género enviado
+					tipoSelect.value = seleccionAnterior;
+
+					// const otraOpcion = document.createElement("option");
+					// otraOpcion.value = "Otro";
+					// otraOpcion.textContent = "Otro";
+					// tipoSelect.appendChild(otraOpcion);
+				}
+			})
+			.catch(error => console.error("Error al cargar los tipos:", error));
+
+		$('#tipo').change(function () {
+			if ($(this).val() === 'Otro') {
+				const nuevoTipo = prompt("Ingrese nuevo tipo:");
+				if (nuevoTipo) {
+					const nuevaOpcion = document.createElement("option");
+					nuevaOpcion.value = nuevoTipo;
+					nuevaOpcion.textContent = nuevoTipo;
+					tipoSelect.insertBefore(nuevaOpcion, tipoSelect.lastElementChild);
+					tipoSelect.value = nuevoTipo;
+				} else {
+					// Restaurar la selección anterior
+					tipoSelect.value = seleccionAnterior;
+				}
+			}
+		});
+	});
+</script>
+{% endmacro %}

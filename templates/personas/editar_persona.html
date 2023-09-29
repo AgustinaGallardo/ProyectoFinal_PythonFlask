@@ -1,12 +1,18 @@
 {% extends 'comun/base.html' %}
 {% import 'comun/genero.html' as genero %}
 {% import 'comun/lugares.html' as lugares %}
+{% import 'comun/paginado.html' as paginado %}
+
+{% import 'comun/tipo.html' as tipoSelect %}
+{% import 'comun/carreras.html' as carrerasSelect %}
+
 
 {% block content %}
 <div class="container p-2">
     <h2>Editar Persona</h2>
     <form id="editar-persona-form" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="accion" value="editar_persona">
         <div class="row">
             <div class="col mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
@@ -44,7 +50,164 @@
             <button class="btn btn-success btn-sm" type="submit" id="guardar-persona">Guardar Cambios</button>
         </div>
     </form>
-    <a class="btn btn-primary" href="{{ url_for('routes_personas.obtener_lista_paginada') }}">Volver a la Lista</a>
+
+
+    <div id="carreras-list">
+        <h2 class="pb-3">Carreras asociadas a {{ persona.nombre }} {{ persona.apellido }}</h2>
+        <a class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregarPersonaCarrera"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        <form method="GET" action="{{ url_for('routes_personas.editar_persona') }}" class="mb-3">
+            <input type="hidden" name="persona_id" value="{{ persona.id }}">
+            <!-- para evitar que el idPase a none al filtrar -->
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="universidad" placeholder="universidad"
+                        value="{{ filtros.get('universidad', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="facultad" placeholder="facultad"
+                        value="{{ filtros.get('facultad', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="programa" placeholder="programa"
+                        value="{{ filtros.get('programa', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
+                </div>
+            </div>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Universidad</th>
+                    <th>Facultad</th>
+                    <th>Campus</th>
+                    <th>Programa</th>
+                    <th>Rol</th>
+                    <th></th>
+                    <!-- ... (otros encabezados) ... -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for carrera in carreras %}
+                <tr>
+                    <!-- <td>{{ carrera.id }}</td> -->
+                    <td>{{ carrera.carrera.universidad.nombre }}</td>
+                    <td>{{ carrera.carrera.facultad.nombre }}</td>
+                    <td>{{ carrera.carrera.campus.nombre }}</td>
+                    <td>{{ carrera.carrera.programa.nombre }}</td>
+                    <td>{{ carrera.tipopersona.nombre }}</td>
+                    <td>
+
+
+                        <!-- <form id="editar-persona-carrera-form" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="accion" value="cargarDatos_editar_carrera_persona">
+                            <input type="hidden" name="carrera_id" value="{{ carrera.id }}">
+                            <button type="submit" class="btn btn-primary">Editar</button>
+                        </form> -->
+
+                        <a href="{{ url_for('routes_personas.editar_carrera_persona', carrera_id=carrera.id) }}"
+							class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
+
+
+                        <button class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button>
+                    </td>
+                </tr>
+
+
+                {% endfor %}
+
+
+            </tbody>
+        </table>
+
+        {{ paginado.render_paginado('routes_personas.editar_persona', carreras, filtros=filtros) }}
+
+    </div>
+    <a class=" btn btn-primary" href="{{ url_for('routes_personas.obtener_lista_paginada') }}">Volver a la Lista</a>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal AGREGAR -->
+<div class="modal fade" id="modalAgregarPersonaCarrera" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar carrera a Persona</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form id="crear-persona-carrera-form" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="accion" value="crear_carrera_persona">
+                        <input type="hidden" name="persona_id" value="{{ persona.id }}">
+                        <div class="row">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    Carrera
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        {{ carrerasSelect.campos_carreras("", "", "", "") }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-4">
+
+                            <div class="col mb-3">
+                                {{ tipoSelect.campo_tipo("" ) }}
+                            </div>
+
+                        </div>
+                        <div class="col mb-3 text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button class="btn btn-success" type="submit" id="crear-persona-carrera">Agregar</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 {% endblock %}

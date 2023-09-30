@@ -8,7 +8,7 @@ class PersonasResource(Resource):
 	@jwt_or_login_required()
 	def get(self, persona_id=None):
 		if persona_id is None:
-			data = request.get_json() 
+			data = request.get_json()
 			pagina = data.get('pagina') 
 			filtros = data.get('filtros', {})
 			personas, total_paginas = gestor_personas().obtener_pagina(pagina, **filtros)
@@ -41,6 +41,7 @@ class PersonasResource(Resource):
 	def post(self):
 		args = request.get_json() 
 		resultado=gestor_personas().crear(**args)
+		print("ESTOY EN API personas.py def post(self)")
 		if resultado["Exito"]:
 			persona=resultado["Resultado"]
 			persona_data=persona.serialize()

@@ -31,10 +31,18 @@
                     <td>
                         <a href="{{ url_for('routes_carreras.editar_carrera', carrera_id=carrera.id) }}"
                             class="btn btn-primary">Editar</a>
-                        <button class="btn btn-danger" data-toggle="modal"
-                            data-target="#eliminarModal{{ carrera.id }}">Eliminar</button>
+                        <button class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#eliminarModal{{ carrera.id }}">Eliminar</button>
                     </td>
-                </tr> 
+                    </tr>
+                    <!-- Modal para confirmar la eliminación -->
+                    {{ modal_eliminar.confirmar_eliminar(
+                    carrera.id,
+                    url_for('routes_carreras.eliminar_carrera', carrera_id=carrera.id),
+                    '¿Estás seguro de que deseas eliminar a ' ~ carrera.programa ~ ' ' ~ carrera.facultad ~ '?'
+                    ) }}
+
+
                 {% endfor %}
             </tbody>
         </table>

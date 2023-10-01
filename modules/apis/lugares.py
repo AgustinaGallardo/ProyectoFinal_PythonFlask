@@ -1,10 +1,7 @@
-from flask_restful import Resource, reqparse
-from flask import request,jsonify
+from flask_restful import Resource
+from flask import request
 from modules.auth import jwt_or_login_required
-from flask_login import login_required
 from modules.common.gestor_lugares import gestor_lugares
-from flask_jwt_extended import jwt_required, get_jwt_identity
-
 
 class LugaresResource(Resource):
 	@jwt_or_login_required()
@@ -38,7 +35,6 @@ class LugaresResource(Resource):
 			return {"Exito":True,"MensajePorFallo":None,"Resultado":paises_data}, 200
 		else:
 			return {"Exito":False,"MensajePorFallo":"Recurso no definido","Resultado":None}, 400
-
 
 	@jwt_or_login_required()
 	def post(self, lugar_type=None):

@@ -5,7 +5,7 @@
 <!-- Button trigger modal -->
 <div class="d-flex justify-content-center mt-3">
 	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-		Iniciar Sección
+		Iniciar Sesión
 	</button>
 </div>
 
@@ -14,7 +14,7 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Iniciar Sección como Administrador</h1>
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Iniciar Sesión como Administrador</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -23,9 +23,9 @@
 					<form method="post" action="/login">
 						<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 						<label for="username">Username:</label>
-						<input type="text" name="username" required><br>
-						<label for="password">Password:</label>
-						<input type="password" name="password" required><br>
+						<input type="text" name="username" required value="admin"><br>
+						<label for="password"  class="pt-3">Password:</label>
+						<input type="password" name="password" required value="admin"><br>
 						
 					</div>
 				</div>

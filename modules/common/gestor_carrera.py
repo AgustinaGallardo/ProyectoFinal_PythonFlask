@@ -1,4 +1,4 @@
-from modules.common.gestor_comun import ResponseMessage
+from modules.common.gestor_comun import ResponseMessage, validaciones
 from modules.models.entities import Facultad,Universidad,Campus,Programa,Carrera, db
 from config import registros_por_pagina
 
@@ -60,63 +60,107 @@ class gestor_carrera(ResponseMessage):
 	def obtener_todo(self):
 		return Carrera.obtener_todo()
 	
+	def consultar_universidades(self, **kwargs):
+		universidades = (
+			db.session.query(Universidad)
+			.distinct()
+			.join(Carrera)
+			.all()
+		)
+		return universidades
+	
 
 	def consultar_facultades(self, **kwargs):
 		facultades = (
 			db.session.query(Facultad)
 			.distinct()
+			.join(Carrera)
+	 		.join(Universidad)
+			.filter(Universidad.nombre == kwargs["universidad"])
 			.all()
 		)
 		return facultades
+	
 
-	def consultar_universidades(self, **kwargs):
-		universidades = (
-			db.session.query(Universidad)
-			.distinct()
-			.all()
-		)
-		return universidades
-
+	def consultar_campus(self, **kwargs):
+			campus = (
+				db.session.query(Campus)
+				.distinct()
+				.join(Carrera)
+				.join(Universidad)
+				.join(Facultad)
+				.filter(Universidad.nombre == kwargs["universidad"], Facultad.nombre == kwargs["facultad"])
+				.all()
+			)
+			return campus
+	
+	
 	def consultar_programas(self, **kwargs):
 		programas = (
 			db.session.query(Programa)
 			.distinct()
+			.join(Carrera)
+			.join(Universidad)
+			.join(Facultad)
+			.join(Campus)
+			.filter(Universidad.nombre == kwargs["universidad"], Facultad.nombre == kwargs["facultad"], Campus.nombre == kwargs["campus"])
 			.all()
 		)
 		return programas
 
-	def consultar_campus(self, **kwargs):
-		campus = (
-			db.session.query(Campus)
-			.distinct()
-			.all()
-		)
-		return campus
 
-	def editar_carrera(self, id, **kwargs):
-    
-		carrera = Carrera.query.get(id)		
-		
-		if carrera is None:
+	def editar_carrera(self, carrera_id, **kwargs):
+			# Busca la carrera por su ID
+			carrera = Carrera.query.get(carrera_id)
+
+			if not carrera:
+				# Si no se encuentra la carrera, devuelve un mensaje de error
+				return ResponseMessage(
+					Resultado=None,
+					Exito=False,
+					MensajePorFallo='La carrera no fue encontrada.'
+				)
+
+			# Actualiza los campos de la carrera con los valores proporcionados
+			if 'facultad' in kwargs:
+				carrera.facultad = kwargs['facultad']
+			if 'universidad' in kwargs:
+				carrera.universidad = kwargs['universidad']
+			if 'campus' in kwargs:
+				carrera.campus = kwargs['campus']
+			if 'programa' in kwargs:
+				carrera.programa = kwargs['programa']
+
+			# Guarda los cambios en la base de datos
+			resultado_actualizar = carrera.guardar()
+
+			# Devuelve el resultado de la operación
+			return ResponseMessage(
+				Resultado=resultado_actualizar["Resultado"],
+				Exito=resultado_actualizar["Exito"],
+				MensajePorFallo=resultado_actualizar["MensajePorFallo"]
+			)
+	
+	def eliminar(self, id):
+		carrera = Carrera.query.get(id)
+		if carrera==None:
 			self.Exito = False
 			self.MensajePorFallo = "La carrera no existe"
-			return self.obtenerResultado()		
-	
-		if 'programa' in kwargs:
-			carrera.programa = Programa.crear_y_obtener(nombre=kwargs['programa'])
-
-		if 'facultad' in kwargs:
-			carrera.facultad = Facultad.crear_y_obtener(nombre=kwargs['facultad'])
-
-		if 'universidad' in kwargs:
-			carrera.universidad = Universidad.crear_y_obtener(nombre=kwargs['universidad'])
-
-		if 'campus' in kwargs:
-			carrera.campus = Campus.crear_y_obtener(nombre=kwargs['campus'])
-		
-		resultado_guardar = carrera.guardar()
-		self.Exito = resultado_guardar["Exito"]
-		self.MensajePorFallo = resultado_guardar["MensajePorFallo"]
-
+			return self.obtenerResultado()
+		resultado_borrar=carrera.borrar()
+		self.Exito=resultado_borrar["Exito"]
+		self.MensajePorFallo=resultado_borrar["MensajePorFallo"]
 		return self.obtenerResultado()
-		
+	
+	def obtener_por_id(self, carrera_id):
+            # Busca la carrera por su ID
+            carrera = Carrera.query.get(carrera_id)
+
+            if not carrera:
+                # Si no se encuentra la carrera, devuelve None
+                return None
+
+            # Si se encuentra la carrera, devuelve el objeto de carrera
+            return carrera
+	
+	

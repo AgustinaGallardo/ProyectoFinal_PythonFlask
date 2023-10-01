@@ -39,7 +39,7 @@
                     {{ modal_eliminar.confirmar_eliminar(
                     carrera.id,
                     url_for('routes_carreras.eliminar_carrera', carrera_id=carrera.id),
-                    '¿Estás seguro de que deseas eliminar a ' ~ carrera.programa ~ ' ' ~ carrera.facultad ~ '?'
+                    '¿Estás seguro de que deseas eliminar el programa ' ~ carrera.programa.nombre ~ ' de la facultad de ' ~ carrera.facultad.nombre ~ '?'
                     ) }}
 
 

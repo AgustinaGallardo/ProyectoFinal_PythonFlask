@@ -47,10 +47,10 @@
 						universidadSelect.appendChild(option);
 						if (universidad.nombre===seleccionUniversidadAnterior){universidadSelect.value = seleccionUniversidadAnterior;}
 					});
-					const otraOpcion = document.createElement("option");
-					otraOpcion.value = "Otro";
-					otraOpcion.textContent = "Otro";
-					universidadSelect.appendChild(otraOpcion);
+					// const otraOpcion = document.createElement("option");
+					// otraOpcion.value = "Otro";
+					// otraOpcion.textContent = "Otro";
+					// universidadSelect.appendChild(otraOpcion);
 
 					// Disparar manualmente el evento change del universidad
 					const changeEvent = new Event('change');
@@ -92,10 +92,10 @@
 								if (facultad.nombre===seleccionFacultadAnterior){facultadSelect.value = seleccionFacultadAnterior;}
 							});
 							facultadSelect.disabled = false;
-							const otraOpcion = document.createElement("option");
-							otraOpcion.value = "Otro";
-							otraOpcion.textContent = "Otro";
-							facultadSelect.appendChild(otraOpcion);
+							// const otraOpcion = document.createElement("option");
+							// otraOpcion.value = "Otro";
+							// otraOpcion.textContent = "Otro";
+							// facultadSelect.appendChild(otraOpcion);
 							// Disparar manualmente el evento change de facultad
 							const changeEvent = new Event('change');
 							facultadSelect.dispatchEvent(changeEvent);
@@ -138,10 +138,10 @@
 								if (campus.nombre===seleccionCampusAnterior){campusSelect.value = seleccionCampusAnterior;}
 							});
 							campusSelect.disabled = false;
-							const otraOpcion = document.createElement("option");
-							otraOpcion.value = "Otro";
-							otraOpcion.textContent = "Otro";
-							campusSelect.appendChild(otraOpcion);
+							// const otraOpcion = document.createElement("option");
+							// otraOpcion.value = "Otro";
+							// otraOpcion.textContent = "Otro";
+							// campusSelect.appendChild(otraOpcion);
 							// Disparar manualmente el evento change de campus
 							const changeEvent = new Event('change');
 							campusSelect.dispatchEvent(changeEvent);
@@ -182,10 +182,10 @@
 								if (programa.nombre===seleccionProgramaAnterior){programaSelect.value = seleccionProgramaAnterior;}
 							});
 							programaSelect.disabled = false;
-							const otraOpcion = document.createElement("option");
-							otraOpcion.value = "Otro";
-							otraOpcion.textContent = "Otro";
-							programaSelect.appendChild(otraOpcion);
+							// const otraOpcion = document.createElement("option");
+							// otraOpcion.value = "Otro";
+							// otraOpcion.textContent = "Otro";
+							// programaSelect.appendChild(otraOpcion);
 							// Disparar manualmente el evento change de programa
 							const changeEvent = new Event('change');
 							programaSelect.dispatchEvent(changeEvent);

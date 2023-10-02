@@ -60,38 +60,54 @@ class gestor_carrera(ResponseMessage):
 	def obtener_todo(self):
 		return Carrera.obtener_todo()
 	
+	def consultar_universidades(self, **kwargs):
+		universidades = (
+			db.session.query(Universidad)
+			.distinct()
+			.join(Carrera)
+			.all()
+		)
+		return universidades
+	
 
 	def consultar_facultades(self, **kwargs):
 		facultades = (
 			db.session.query(Facultad)
 			.distinct()
+			.join(Carrera)
+	 		.join(Universidad)
+			.filter(Universidad.nombre == kwargs["universidad"])
 			.all()
 		)
 		return facultades
+	
 
-	def consultar_universidades(self, **kwargs):
-		universidades = (
-			db.session.query(Universidad)
-			.distinct()
-			.all()
-		)
-		return universidades
-
+	def consultar_campus(self, **kwargs):
+			campus = (
+				db.session.query(Campus)
+				.distinct()
+				.join(Carrera)
+				.join(Universidad)
+				.join(Facultad)
+				.filter(Universidad.nombre == kwargs["universidad"], Facultad.nombre == kwargs["facultad"])
+				.all()
+			)
+			return campus
+	
+	
 	def consultar_programas(self, **kwargs):
 		programas = (
 			db.session.query(Programa)
 			.distinct()
+			.join(Carrera)
+			.join(Universidad)
+			.join(Facultad)
+			.join(Campus)
+			.filter(Universidad.nombre == kwargs["universidad"], Facultad.nombre == kwargs["facultad"], Campus.nombre == kwargs["campus"])
 			.all()
 		)
 		return programas
 
-	def consultar_campus(self, **kwargs):
-		campus = (
-			db.session.query(Campus)
-			.distinct()
-			.all()
-		)
-		return campus
 
 	def editar_carrera(self, carrera_id, **kwargs):
 			# Busca la carrera por su ID

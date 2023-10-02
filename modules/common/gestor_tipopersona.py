@@ -73,3 +73,7 @@ class GestorTiposPersona(ResponseMessage):
             self.Exito = False
             self.MensajePorFallo = "No se encontraron tipos de persona."
             return []
+        
+
+    def obtener_todo(self):
+        return TipoPersona.obtener_todo()

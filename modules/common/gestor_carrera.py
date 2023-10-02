@@ -6,6 +6,14 @@ from config import registros_por_pagina
 class gestor_carrera(ResponseMessage):
 	def __init__(self):
 		super().__init__()
+	
+	campos_obligatorios = {
+		'facultad': 'La facultad es obligatoria',
+		'universidad': 'La universidad es obligatoria',
+		'programa': 'El programa es obligatorio',
+		'campus': 'El campus es obligatorio',
+		
+	}
 		
 
 	def obtener_pagina(self, pagina, **kwargs):

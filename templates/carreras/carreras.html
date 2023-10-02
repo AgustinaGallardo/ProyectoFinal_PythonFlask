@@ -6,6 +6,25 @@
 <div class="container p-2 small"></div>
 	<h2 class="text-center">Carreras</h2>
 	<!--<a class="btn btn-success mb-3" href="{{ url_for('routes_personas.crear_persona') }}">Agregar carrera</a>-->
+    <form method="GET" action="{{ url_for('routes_carreras.obtener_lista_paginada') }}"class="mb-3">
+		<div class="row">
+			<div class="col-md-3">
+				<input type="text" class="form-control" name="programa" placeholder="Programa" value="{{ filtros.get('programa', '') }}">
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" name="facultad" placeholder="Facultad" value="{{ filtros.get('facultad', '') }}">
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" name="universidad" placeholder="Universidad" value="{{ filtros.get('universidad', '') }}">
+			</div>
+            <div class="col-md-3">
+				<input type="text" class="form-control" name="campus" placeholder="Campus" value="{{ filtros.get('campus', '') }}">
+			</div>
+			<div class="col-md-3">
+				<button type="submit" class="btn btn-primary">Filtrar</button>
+			</div>
+		</div>
+	</form>
 
 	<div id="personas-list">
 		<table class="table">

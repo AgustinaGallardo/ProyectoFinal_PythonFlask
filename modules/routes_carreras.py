@@ -90,3 +90,5 @@ def editar_carrera(carrera_id):
                 flash(resultado.MensajePorFallo, 'warning')
 
     return render_template('carreras/editar_carrera.html', formulario_data=formulario_data, carrera=carrera, csrf=csrf)
+
+    

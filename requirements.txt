@@ -11,3 +11,5 @@ Gunicorn
 psycopg2
 python-dotenv
 mysql
+openpyxl
+alembic

@@ -1,0 +1,43 @@
+{% extends 'comun/base.html' %}
+{% import 'comun/genero.html' as genero %}
+{% import 'comun/lugares.html' as lugares %}
+{% import 'comun/paginado.html' as paginado %}
+
+{% import 'comun/tipo.html' as tipoSelect %}
+{% import 'comun/carreras.html' as carrerasSelect %}
+
+
+{% block content %}
+<div class="container p-2">
+    <h2 class="mb-5">Editar Carrera de Persona</h2>
+    <form id="editar-persona-carrera-form" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="accion" value="editar_carrera_persona">
+        <input type="hidden" name="persona_id" value="{{ carrerapersona.persona_id }}">
+
+        <div class="row mb-3">
+
+            {{ carrerasSelect.campos_carreras(carrerapersona.carrera.universidad.nombre,
+            carrerapersona.carrera.facultad.nombre,
+            carrerapersona.carrera.campus.nombre, carrerapersona.carrera.programa.nombre) }}
+        </div>
+
+        <div class="row mb-3">
+
+            <div class="col-3">
+                {{ tipoSelect.campo_tipo(carrerapersona.tipopersona.nombre) }}
+            </div>
+
+        </div>
+        <div class="col mb-3 text-center">
+            <button class="btn btn-success btn-sm" type="submit" id="guardar-personacarrera">Guardar Cambios</button>
+        </div>
+    </form>
+
+    <a class=" btn btn-primary"
+        href="{{ url_for('routes_personas.editar_persona', persona_id=carrerapersona.persona_id) }}"">Volver carreras persona</a>
+</div>
+
+
+
+{% endblock %}

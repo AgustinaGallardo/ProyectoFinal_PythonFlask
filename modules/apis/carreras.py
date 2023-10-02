@@ -5,12 +5,20 @@ from modules.common.gestor_carrera import gestor_carrera
 
 class CarrerasResource(Resource):    
         @jwt_or_login_required()
-        def get(self, carrera_id=None):
-            if carrera_id is None:
+        def get(self, carrera_type=None):
+            if not carrera_type:
                 data = request.get_json()
-                pagina = data.get('pagina')
-                filtros = data.get('filtros', {})
-                carreras, total_paginas = gestor_carrera().obtener_pagina(pagina, **filtros)
+                facultad = data.get('facultad')
+                universidad = data.get('universidad')
+                campus = data.get('campus')
+                programa = data.get('programa')
+
+                carreras = gestor_carrera().consultar_carreras(
+                    facultad=facultad,
+                    universidad=universidad,
+                    campus=campus,
+                    programa=programa)
+
                 carreras_data = []
                 for carrera in carreras:
                     cd = carrera.serialize()
@@ -20,21 +28,20 @@ class CarrerasResource(Resource):
                     cd["programa"] = carrera.programa.nombre
                     carreras_data.append(cd)
 
-                return {"Exito": True, "MensajePorFallo": None, "Resultado": carreras_data, "TotalPaginas":total_paginas}, 200
-            '''else:
-                resultado = gestor_carrera().obtener(carrera_id)
-                if resultado["Exito"]:
-                    carrera=resultado["Resultado"]
-                    carrera_data=carrera.serialize()
-                    carrera_data["birthdate"]=carrera.birthdate.isoformat()
-                    carrera_data["pais"]=carrera.lugar.pais.nombre
-                    carrera_data["provincia"]=carrera.lugar.provincia.nombre
-                    carrera_data["ciudad"]=carrera.lugar.ciudad.nombre
-                    carrera_data["barrio"]=carrera.lugar.barrio.nombre
-                    return {"Exito":resultado["Exito"],"MensajePorFallo":resultado["MensajePorFallo"],"Resultado":persona_data}, 200
-                else:
-                    return {"Exito":resultado["Exito"],"MensajePorFallo":resultado["MensajePorFallo"],"Resultado":None}, 400
-                    '''
+                return {"Exito": True, "MensajePorFallo": None, "Resultado": carreras_data}, 200
+            
+            elif carrera_type == 'obtener_universidades':
+                universidades = gestor_carrera().consultar_universidades()
+                universidades_data = [universidad.serialize() for universidad in universidades]
+                return {"Exito": True, "MensajePorFallo": None, "Resultado": universidades_data}, 200
+
+            # elif carrera_type == 'obtener_facultades':
+            #     facultades = gestor_carrera().consultar_facultades()
+            #     facultades_data = [facultad.serialize() for facultad in facultades]
+            #     return {"Exito": True, "MensajePorFallo": None, "Resultado": facultades_data}, 200
+            
+            else:
+                return {"Exito": False, "MensajePorFallo": "Recurso no definido", "Resultado": None}, 400
             
         @jwt_or_login_required()
         def post(self, carrera_type=None):
@@ -97,3 +104,5 @@ class CarrerasResource(Resource):
                     return {"Exito": resultado.Exito, "MensajePorFallo": resultado.MensajePorFallo, "Resultado": carrera_data}, 200
                 else:
                     return {"Exito": resultado.Exito, "MensajePorFallo": resultado.MensajePorFallo, "Resultado": None}, 400
+
+

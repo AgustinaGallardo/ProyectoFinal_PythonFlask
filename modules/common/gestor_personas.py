@@ -51,7 +51,7 @@ class gestor_personas(ResponseMessage):
 			return False
 	
 	def obtener_pagina(self, pagina, **kwargs):
-		query = Persona.query
+		query = Persona.query.filter(Persona.activo==True) # Muestra solo personas activas.
 		if 'nombre' in kwargs:
 			query = query.filter(Persona.nombre.ilike(f"%{kwargs['nombre']}%"))
 		if 'apellido' in kwargs:
@@ -153,7 +153,7 @@ class gestor_personas(ResponseMessage):
 			self.Exito = False
 			self.MensajePorFallo = "La persona no existe"
 			return self.obtenerResultado()
-		resultado_borrar=persona.borrar()
+		resultado_borrar=persona.activar(False) # Logica dar de baja.
 		self.Exito=resultado_borrar["Exito"]
 		self.MensajePorFallo=resultado_borrar["MensajePorFallo"]
 		return self.obtenerResultado()
@@ -172,18 +172,29 @@ class gestor_personas(ResponseMessage):
 			return self.obtenerResultado()
 
 		genero=Genero.crear_y_obtener(nombre=kwargs['genero'])
+		print("genero en kwargs:")
+		print(kwargs['genero'])
+		print("genero resultado .crear_y_obtener:")
+		print(genero)
 		pais=Pais.crear_y_obtener(nombre=kwargs['pais'])
+		print("pais en kwargs:")
+		print(kwargs['pais'])
+		print("pais resultado .crear_y_obtener:")
+		print(pais)
+		
 		provincia=Provincia.crear_y_obtener(nombre=kwargs['provincia'])
 		ciudad=Ciudad.crear_y_obtener(nombre=kwargs['ciudad'])
 		barrio=Barrio.crear_y_obtener(nombre=kwargs['barrio'])
 		lugar=Lugar.crear_y_obtener(pais=pais,provincia=provincia,ciudad=ciudad, barrio=barrio)
+		print("lugar resultado .crear_y_obtener:")
+		print(lugar)
 
 		nombre = kwargs['nombre']
 		apellido = kwargs['apellido']
 		email = new_email
 		birthdate = datetime.strptime(new_birthdate, '%d-%m-%Y').isoformat()
 		personal_id = kwargs['personal_id']
-
+		print("ESTOY EN gestor_personas def crear(self, **kwargs):")
 		nueva_persona = Persona(nombre=nombre, apellido=apellido, email=email, birthdate=birthdate, personal_id=personal_id, genero=genero, lugar=lugar)
 	
 		resultado_crear=nueva_persona.guardar()

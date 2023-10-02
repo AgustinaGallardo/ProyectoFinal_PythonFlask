@@ -68,37 +68,28 @@ def editar_persona():
             else:
                 flash(resultado["MensajePorFallo"], 'warning')
 
-        # if formulario_data['accion'] == 'cargarDatos_editar_carrera_persona':
-        #             print("VENGO A editar CARRERA-PERSONA")
-        #             # print(formulario_data)
+        if formulario_data['accion'] == 'eliminar_carrera_persona':
+                    print("VENGO A eliminar CARRERA-PERSONA")
+                    print(carrera_id)
                     
-        #             resultado=gestor_carreras_personas().obtener(formulario_data['carrera_id'])
-        #             if resultado["Exito"]:
-        #                 carrerapersona=resultado["Resultado"]
-        #                 return render_template('personas/editar_persona_carrera.html', carrerapersona=carrerapersona)
-        #             else:
-        #                 flash(resultado["MensajePorFallo"], 'warning')
-        #                 return redirect(url_for('routes_personas.obtener_lista_paginada'))   
+                    resultado=gestor_carreras_personas().eliminar(carrera_id)
+                    if resultado["Exito"]:
+                        flash('Carrera de persona eliminada correctamente', 'success')
+                    else:
+                        flash('Error al eliminar carrera de persona', 'success')
+                    # return redirect(url_for('routes_personas.obtener_lista_paginada'))
+                    return redirect(url_for('routes_personas.editar_persona', persona_id=persona_id))
+
+
+                    # def eliminar_carrera_persona(carrera_id):
+                    # resultado=gestor_carreras_personas().eliminar(carrera_id)
+                    # if resultado["Exito"]:
+                    #     flash('Carrera de persona eliminada correctamente', 'success')
+                    # else:
+                    #     flash('Error al eliminar carrera de persona', 'success')
+                    # return redirect(url_for('routes_personas.obtener_lista_paginada'))
             
-        # if formulario_data['accion'] == 'editar_carrera_persona': #ENTRA POR ACA CUANDO QUEREMOS MODIFICAR UNA CARRERA-PERSONA SELECCIONADA
-                
-        #         resultado=gestor_carreras_personas().editar(formulario_data['persona_id'], **formulario_data)
-        #         if resultado["Exito"]:
-        #             flash('Carrera de persona actualizada correctamente', 'success')
-        #             return redirect(url_for('routes_personas.editar_persona', persona_id=formulario_data['persona_id']))
-        #         else:
-        #             flash(resultado["MensajePorFallo"], 'warning')
 
-        
-
-            # resultado=gestor_carreras_personas().crear(**formulario_data)
-            # if resultado["Exito"]:
-            #     flash('Carrera-Peronsa creada correctamente', 'success')
-            #     # return redirect(url_for('routes_personas.obtener_lista_paginada'))
-            # else:
-            #     flash(resultado["MensajePorFallo"], 'warning')
-
-    
     resultado=gestor_personas().obtener(persona_id)
 
     if resultado["Exito"]:

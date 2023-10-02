@@ -39,6 +39,20 @@ class BaseEntity(db.Model):
 			exito=False
 			mensaje=str(e)
 		return {"Resultado":None, "Exito":exito, "MensajePorFallo":mensaje}
+	
+
+	def activar(self, estado):
+		exito=True
+		mensaje=""
+		try:
+			self.activo=estado
+			db.session.commit()
+		except Exception as e:
+			db.session.rollback()
+			exito=False
+			mensaje=str(e)
+		return {"Resultado":None, "Exito":exito, "MensajePorFallo":mensaje}
+	
 		
 	@classmethod
 	def crear_y_obtener(cls, **kwargs):
@@ -48,10 +62,21 @@ class BaseEntity(db.Model):
 			db.session.add(entidad)
 		return entidad
 		
+	# def serialize(self):
+	# 	serializable_data = {}
+	# 	for column in self.__table__.columns:
+	# 		serializable_data[column.name] = getattr(self, column.name)
+	# 	return serializable_data
+
 	def serialize(self):
 		serializable_data = {}
 		for column in self.__table__.columns:
-			serializable_data[column.name] = getattr(self, column.name)
+			value = getattr(self, column.name)
+			if isinstance(value, datetime):
+				# Si el valor es de tipo datetime, aplicar isoformat()
+				serializable_data[column.name] = value.isoformat()
+			else:
+				serializable_data[column.name] = value
 		return serializable_data
 	
 	@staticmethod

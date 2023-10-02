@@ -101,41 +101,24 @@ class  gestor_carreras_personas(ResponseMessage):
 
 
 
-
-
-
-
-
-
-
-
-    # def eliminar_persona_de_carrera(self, persona_id, carrera_id):
-    #     # Realiza validaciones si es necesario
-    #     # Asegúrate de que la relación entre persona y carrera exista
-
-    #     # Busca la relación existente en la tabla personasCarreras
-    #     relacion_existente = personasCarreras.query.filter_by(persona_id=persona_id, carrera_id=carrera_id).first()
-
-    #     if relacion_existente:
-    #         # Elimina la entrada en la tabla personasCarreras
-    #         resultado_borrar = relacion_existente.borrar()  # Suponiendo que tienes un método borrar() en tu entidad personasCarreras
-
-    #         # Maneja errores y devuelve un mensaje de éxito o fallo
-    #         if resultado_borrar["Exito"]:
-    #             self.Exito = True
-    #             self.Resultado = "La persona ha sido eliminada de la carrera."
-    #         else:
-    #             self.Exito = False
-    #             self.MensajePorFallo = "No se pudo eliminar a la persona de la carrera."
-    #     else:
-    #         self.Exito = False
-    #         self.MensajePorFallo = "La relación persona-carrera no existe."
+    def eliminar(self, id):
+        carrera = personasCarreras.query.get(id)
+        if carrera==None:
+            self.Exito = False
+            self.MensajePorFallo = "La carrera no existe"
+            return self.obtenerResultado()
+        resultado_borrar=carrera.activar(False)
+        self.Exito=resultado_borrar["Exito"]
+        self.MensajePorFallo=resultado_borrar["MensajePorFallo"]
+        return self.obtenerResultado()
         
     
     #MIO 
     def obtener_carreras_por_persona(persona):
         carreras = (
-            db.session.query(personasCarreras).filter(personasCarreras.persona==persona)
+            db.session.query(personasCarreras)
+            .filter(personasCarreras.activo==True)
+            .filter(personasCarreras.persona==persona)
             .join(Carrera)
             .join(Universidad)
             .join(Facultad)
@@ -147,9 +130,9 @@ class  gestor_carreras_personas(ResponseMessage):
     
     # Obtiene todas las carreras asociadas a una persona, paginada.
     def obtener_pagina(self, pagina, **kwargs):
-        query = personasCarreras.query.filter_by(persona_id=kwargs['persona_id'])
+        query = personasCarreras.query.filter_by(persona_id=kwargs['persona_id']).filter(personasCarreras.activo==True) #traigo solo si la personacarrera esta activa en tabla personascarreras.
         if 'programa' in kwargs:
-            query = query.join(Carrera).join(Programa).filter(Programa.nombre.ilike(f"%{kwargs['programa']}%"))
+            query = query.join(Carrera).filter(Carrera.activo==True).join(Programa).filter(Programa.nombre.ilike(f"%{kwargs['programa']}%")) #traigo solo si la carrera relacionada a esta persona tambiene esta activa en tabla Carreras
         if 'facultad' in kwargs:
             query = query.join(Facultad).filter(Facultad.nombre.ilike(f"%{kwargs['facultad']}%"))
         if 'universidad' in kwargs:

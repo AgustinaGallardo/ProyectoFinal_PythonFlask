@@ -51,7 +51,7 @@ class gestor_personas(ResponseMessage):
 			return False
 	
 	def obtener_pagina(self, pagina, **kwargs):
-		query = Persona.query
+		query = Persona.query.filter(Persona.activo==True) # Muestra solo personas activas.
 		if 'nombre' in kwargs:
 			query = query.filter(Persona.nombre.ilike(f"%{kwargs['nombre']}%"))
 		if 'apellido' in kwargs:
@@ -153,7 +153,7 @@ class gestor_personas(ResponseMessage):
 			self.Exito = False
 			self.MensajePorFallo = "La persona no existe"
 			return self.obtenerResultado()
-		resultado_borrar=persona.borrar()
+		resultado_borrar=persona.activar(False) # Logica dar de baja.
 		self.Exito=resultado_borrar["Exito"]
 		self.MensajePorFallo=resultado_borrar["MensajePorFallo"]
 		return self.obtenerResultado()

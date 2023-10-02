@@ -5,32 +5,26 @@
 {% block content %}
 <div class="container p-2 small"></div>
 	<h2 class="text-center">Carreras</h2>
-<<<<<<< HEAD
-	<!--<a class="btn btn-success mb-3" href="{{ url_for('routes_personas.crear_persona') }}">Agregar carrera</a>-->
-    <form method="GET" action="{{ url_for('routes_carreras.obtener_lista_paginada') }}"class="mb-3">
+	<a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>
+	<form method="GET" class="mb-3">
 		<div class="row">
 			<div class="col-md-3">
-				<input type="text" class="form-control" name="programa" placeholder="Programa" value="{{ filtros.get('programa', '') }}">
+				<input type="text" class="form-control" name="programa" placeholder="Programa">
 			</div>
 			<div class="col-md-3">
-				<input type="text" class="form-control" name="facultad" placeholder="Facultad" value="{{ filtros.get('facultad', '') }}">
+				<input type="text" class="form-control" name="facultad" placeholder="Facultad">
 			</div>
 			<div class="col-md-3">
-				<input type="text" class="form-control" name="universidad" placeholder="Universidad" value="{{ filtros.get('universidad', '') }}">
+				<input type="text" class="form-control" name="universidad" placeholder="Universidad">
 			</div>
-            <div class="col-md-3">
-				<input type="text" class="form-control" name="campus" placeholder="Campus" value="{{ filtros.get('campus', '') }}">
+			<div class="col-md-3">
+				<input type="text" class="form-control" name="campus" placeholder="Campus">
 			</div>
 			<div class="col-md-3">
 				<button type="submit" class="btn btn-primary">Filtrar</button>
 			</div>
 		</div>
 	</form>
-
-=======
-	<a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>    
-	
->>>>>>> 5d916314db2507e0b6b04809bf251807ee6c723b
 	<div id="personas-list">
 		<table class="table">
 			<thead>

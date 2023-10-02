@@ -5,6 +5,7 @@
 {% block content %}
 <div class="container p-2 small"></div>
 	<h2 class="text-center">Carreras</h2>
+<<<<<<< HEAD
 	<!--<a class="btn btn-success mb-3" href="{{ url_for('routes_personas.crear_persona') }}">Agregar carrera</a>-->
     <form method="GET" action="{{ url_for('routes_carreras.obtener_lista_paginada') }}"class="mb-3">
 		<div class="row">
@@ -26,6 +27,10 @@
 		</div>
 	</form>
 
+=======
+	<a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>    
+	
+>>>>>>> 5d916314db2507e0b6b04809bf251807ee6c723b
 	<div id="personas-list">
 		<table class="table">
 			<thead>

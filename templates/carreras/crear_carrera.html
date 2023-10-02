@@ -1,0 +1,59 @@
+{% extends 'comun/base.html' %}
+{{ facultades }}
+{{ universidades }}
+{{ campus }}
+{{ programas }}
+
+{% block content %}
+<div class="container p-2">
+    <h2>Crear Nueva Carrera</h2>
+    <form id="crear-carrera-form" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="facultad" class="form-label">Facultad</label>
+                <select class="form-select" id="facultad" name="facultad">
+                    <option value="" disabled selected>Seleccionar Facultad</option>
+                    {% for facultad in facultades %}
+                        <option value="{{ facultad.nombre }}">{{ facultad.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col mb-3">
+                <label for="universidad" class="form-label">Universidad</label>
+                <select class="form-select" id="universidad" name="universidad" disabled>
+                    <option value="" disabled selected>Seleccionar Universidad</option>
+                    {% for universidad in universidades %}
+                        <option value="{{ universidad.nombre }}">{{ universidad.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col mb-3">
+                <label for="campus" class="form-label">Campus</label>
+                <select class="form-select" id="campus" name="campus" disabled>
+                    <option value="" disabled selected>Seleccionar Campus</option>
+                    {% for campus in campus %}
+                        <option value="{{ campus.nombre }}">{{ campus.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label for="programa" class="form-label">Programa</label>
+                <select class="form-select" id="programa" name="programa" disabled>
+                    <option value="" disabled selected>Seleccionar Programa</option>
+                    {% for programa in programas %}
+                        <option value="{{ programa.nombre }}">{{ programa.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col mb-3 text-center">
+            <button class="btn btn-success btn-sm" type="submit" id="crear-carrera">Crear Carrera</button>
+        </div>
+    </form>
+    <a class="btn btn-primary" href="{{ url_for('routes_carreras.obtener_lista_paginada') }}">Volver a la Lista</a>
+</div>
+</div>
+{% endblock %}

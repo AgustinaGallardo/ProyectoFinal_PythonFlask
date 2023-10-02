@@ -141,6 +141,17 @@ class gestor_carrera(ResponseMessage):
 				MensajePorFallo=resultado_actualizar["MensajePorFallo"]
 			)
 	
+	def eliminar(self, id):
+		carrera = Carrera.query.get(id)
+		if carrera==None:
+			self.Exito = False
+			self.MensajePorFallo = "La carrera no existe"
+			return self.obtenerResultado()
+		resultado_borrar=carrera.borrar()
+		self.Exito=resultado_borrar["Exito"]
+		self.MensajePorFallo=resultado_borrar["MensajePorFallo"]
+		return self.obtenerResultado()
+	
 	def obtener_por_id(self, carrera_id):
             # Busca la carrera por su ID
             carrera = Carrera.query.get(carrera_id)
@@ -151,3 +162,5 @@ class gestor_carrera(ResponseMessage):
 
             # Si se encuentra la carrera, devuelve el objeto de carrera
             return carrera
+	
+	

@@ -84,4 +84,12 @@ def editar_carrera(carrera_id):
 
     return render_template('carreras/editar_carrera.html', formulario_data=formulario_data, carrera=carrera, csrf=csrf)
 
-    
+@carreras_bp.route('/carreras/<int:carrera_id>', methods=['POST'])
+@login_required
+def eliminar_carrera(carrera_id):
+    resultado=gestor_carrera().eliminar(carrera_id)
+    if resultado["Exito"]:
+        flash('Carrera eliminada correctamente', 'success')
+    else:
+        flash('Error al eliminar carrera', 'success')
+    return redirect(url_for('routes_carreras.obtener_lista_paginada'))

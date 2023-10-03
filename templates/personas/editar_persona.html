@@ -16,19 +16,23 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="accion" value="editar_persona">
         <div class="row">
+
             <div class="col mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" value="{{ persona.nombre }}">
             </div>
+
             <div class="col mb-3">
                 <label for="apellido" class="form-label">Apellido</label>
                 <input type="text" class="form-control" id="apellido" name="apellido" value="{{ persona.apellido }}">
             </div>
+
             <div class="col mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="{{ persona.email }}">
             </div>
         </div>
+        
         <div class="row">
             <div class="col mb-3">
                 <label for="birthdate" class="form-label">Fecha de Nacimiento (d-m-año)</label>

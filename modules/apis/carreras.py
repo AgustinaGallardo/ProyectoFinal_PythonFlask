@@ -88,7 +88,8 @@ class CarrerasResource(Resource):
                 return {"Exito":True,"MensajePorFallo":None,"Resultado":programas_data}, 200
             else:
                 return {"Exito":False,"MensajePorFallo":"Recurso no definido","Resultado":None}, 400
-
+        
+        
 
         @jwt_or_login_required()
         def put(self, carrera_id):
@@ -104,5 +105,13 @@ class CarrerasResource(Resource):
                     return {"Exito": resultado.Exito, "MensajePorFallo": resultado.MensajePorFallo, "Resultado": carrera_data}, 200
                 else:
                     return {"Exito": resultado.Exito, "MensajePorFallo": resultado.MensajePorFallo, "Resultado": None}, 400
+       
+        @jwt_or_login_required()
+        def delete(self, carrera_id):
+            resultado=gestor_carrera().obtener(carrera_id)
+            if resultado["Exito"]:
+                return {"Exito":resultado["Exito"],"MensajePorFallo":resultado["MensajePorFallo"],"Resultado":None}, 201
+            else:
+                return {"Exito":resultado["Exito"],"MensajePorFallo":resultado["MensajePorFallo"],"Resultado":None}, 400
 
 

@@ -169,6 +169,7 @@ class gestor_personas(ResponseMessage):
 			self.Exito = False
 			self.MensajePorFallo = "La persona no existe"
 			return self.obtenerResultado()
+		
 		resultado_borrar=persona.activar(False) # Logica dar de baja.
 		self.Exito=resultado_borrar["Exito"]
 		self.MensajePorFallo=resultado_borrar["MensajePorFallo"]

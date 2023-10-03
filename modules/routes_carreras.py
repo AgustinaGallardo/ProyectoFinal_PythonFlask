@@ -111,10 +111,10 @@ def generar_excel():
     carreras_data=[]
     for carrera in carreras:
         pd={}
-        pd["Programa"] = carrera.programa
-        pd["Facultad"] = carrera.facultad
-        pd["Universidad"] = carrera.universidad
-        pd["Campus"] = carrera.campus
+        pd["Programa"] = carrera.programa.nombre
+        pd["Facultad"] = carrera.facultad.nombre
+        pd["Universidad"] = carrera.universidad.nombre
+        pd["Campus"] = carrera.campus.nombre
         carreras_data.append(pd)
 
     return exportar.exportar_excel(carreras_data)

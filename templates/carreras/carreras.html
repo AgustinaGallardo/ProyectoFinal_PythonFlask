@@ -5,7 +5,21 @@
 {% block content %}
 <div class="container p-2 small">
     <h2 class="text-center">Carreras</h2>
-    <a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>
+
+    <div class="row">
+
+        <div>
+            <form method="GET" action="{{ url_for('routes_carreras.generar_excel') }}" class="mb-3">
+                <a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}"><i class="fa fa-plus"
+                    aria-hidden="true"></i></a>
+                <button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button>
+            </form>
+        </div>
+    
+    </div>
+
+    <!--<a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>
+    <button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button> -->
     
     <div id="personas-list">
         <table class="table">

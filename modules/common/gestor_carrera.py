@@ -110,6 +110,8 @@ class gestor_carrera(ResponseMessage):
 		)
 		return programas
 
+	
+
 
 
 
@@ -127,7 +129,7 @@ class gestor_carrera(ResponseMessage):
 				)
 			
 			
-# Actualiza los campos de la carrera con los valores proporcionados
+		# Actualiza los campos de la carrera con los valores proporcionados
 			if 'facultad' in kwargs:
 				carrera.facultad = kwargs['facultad']
 			if 'universidad' in kwargs:
@@ -171,8 +173,32 @@ class gestor_carrera(ResponseMessage):
 		return self.obtenerResultado()
 			
 			
-#-----------------------------------------------------------
 
+
+	#-----------------------------------------------------------
+
+	def crear_uni(self, **kwargs):
+		
+
+		nombre = kwargs['nombre']
+
+		#if 'universidad' in kwargs:
+		#	universidad=Universidad.crear_y_obtener(nombre=kwargs['universidad'])
+	
+		#universidad=Universidad.crear_y_obtener(nombre=kwargs['nombre'])
+		
+		nueva_universidad = Universidad(nombre=nombre)
+	
+		resultado_crear=nueva_universidad.guardar()
+		self.Resultado=resultado_crear["Resultado"]
+		self.Exito=resultado_crear["Exito"]
+		self.MensajePorFallo=resultado_crear["MensajePorFallo"]
+
+		return self.obtenerResultado()	
+
+
+	
+		
 
 
 	def eliminar(self, id):
@@ -197,25 +223,56 @@ class gestor_carrera(ResponseMessage):
             # Si se encuentra la carrera, devuelve el objeto de carrera
             return carrera
 	
-		
-def crear_uni(self, **kwargs):
-		
-		if not self._validar_campos_obligatorios(kwargs):
-			return self.obtenerResultado()
-		
-		nombre = kwargs['nombre']
 
-		#if 'universidad' in kwargs:
-		#	universidad=Universidad.crear_y_obtener(nombre=kwargs['universidad'])
+	def obtener_universidades(self):
+		return db.session.query(Universidad).distinct().join(Carrera).all()
 	
-		universidad=Universidad.crear_y_obtener(nombre=kwargs['universidad'])
-		
-		nueva_universidad = Universidad(nombre=nombre)
-	
-		resultado_crear=nueva_universidad.guardar()
-		self.Resultado=resultado_crear["Resultado"]
-		self.Exito=resultado_crear["Exito"]
-		self.MensajePorFallo=resultado_crear["MensajePorFallo"]
 
-		return self.obtenerResultado()
-		
+	def obtener_facultades(self, **kwargs):
+		resultado = (
+			db.session.query(Facultad)
+			.distinct()
+			.join(Carrera)
+			.join(Universidad)
+			.filter(Universidad.nombre == kwargs["universidad"])
+			.all()
+		)
+		return resultado
+	
+	def obtener_campus(self, **kwargs):
+		resultado = (
+			db.session.query(Campus)
+			.distinct()
+			.join(Carrera)
+			.join(Universidad)
+			.join(Facultad)
+			.filter(Universidad.nombre == kwargs["universidad"])
+			.filter(Facultad.nombre == kwargs["facultad"])
+			.all()
+		)
+		return resultado
+
+	def obtener_programas(self, **kwargs):
+		resultado = (
+			db.session.query(Programa)
+			.distinct()
+			.join(Carrera)
+			.join(Universidad)
+			.join(Facultad)
+			.join(Campus)
+			.filter(Universidad.nombre == kwargs["universidad"])
+			.filter(Facultad.nombre == kwargs["facultad"])
+			.filter(Campus.nombre == kwargs["campus"])
+			.all()
+		)
+		return resultado
+
+	def obtener_roles(self, **kwargs):
+		resultado = (
+			db.session.query(TipoPersona).all()
+		)
+		return resultado
+	
+
+
+	

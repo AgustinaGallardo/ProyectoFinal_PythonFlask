@@ -1,0 +1,19 @@
+{% extends 'comun/base.html' %}
+{% import 'comun/genero.html' as genero %}
+{% import 'comun/lugares.html' as lugares %}
+{% import 'comun/modal_carreras_personas.html' as agregar_carrera %}
+
+{% block content %}
+<div class="container p-2">
+    <h2>Editar Persona</h2>
+    <form id="editar-persona-form" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ persona.nombre }}">
+            </div>
+
+        </form>
+
+        

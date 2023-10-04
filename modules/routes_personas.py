@@ -13,7 +13,6 @@ personas_bp = Blueprint('routes_personas', __name__)
 @personas_bp.route('/personas', methods=['GET'])
 @login_required
 def obtener_lista_paginada():
-    page = request.args.get('page', default=1, type=int)
     nombre = request.args.get('nombre', default="", type=str)
     apellido = request.args.get('apellido', default="", type=str)
     email = request.args.get('email', default="", type=str)
@@ -22,8 +21,9 @@ def obtener_lista_paginada():
         'apellido': apellido,
         'email': email
     }
-    personas, total_paginas = gestor_personas().obtener_pagina(page, **filtros)
-    return render_template('personas/personas.html', personas=personas, total_paginas=total_paginas, csrf=csrf, filtros=filtros)
+    personas = gestor_personas().obtener_con_filtro(**filtros)
+    return render_template('personas/personas.html', personas=personas, csrf=csrf, filtros=filtros)
+
 
 
 

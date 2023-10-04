@@ -16,10 +16,12 @@ def obtener_lista_paginada():
     nombre = request.args.get('nombre', default="", type=str)
     apellido = request.args.get('apellido', default="", type=str)
     email = request.args.get('email', default="", type=str)
+    cedula = request.args.get('personal_id', default="", type=str)
     filtros = {
         'nombre': nombre,
         'apellido': apellido,
-        'email': email
+        'email': email,
+        'personal_id':cedula
     }
     personas = gestor_personas().obtener_con_filtro(**filtros)
     return render_template('personas/personas.html', personas=personas, csrf=csrf, filtros=filtros)

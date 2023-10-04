@@ -2,7 +2,7 @@ from modules.common.gestor_comun import ResponseMessage, validaciones
 from modules.models.entities import Persona, Genero, Pais, Provincia, Ciudad, Barrio, Lugar
 from config import registros_por_pagina
 from datetime import datetime
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 
 class gestor_personas(ResponseMessage):
 	def __init__(self):

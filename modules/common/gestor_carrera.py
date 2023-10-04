@@ -127,9 +127,6 @@ class gestor_carrera(ResponseMessage):
 				)
 			
 			
-	
-
-			
 # Actualiza los campos de la carrera con los valores proporcionados
 			if 'facultad' in kwargs:
 				carrera.facultad = kwargs['facultad']
@@ -151,8 +148,30 @@ class gestor_carrera(ResponseMessage):
 				MensajePorFallo=resultado_actualizar["MensajePorFallo"]
 			)
 	
-			
 
+	#------------------------------------------------
+	
+	def asignar_carrera(self, **kwargs):
+		if 'universidad' in kwargs:
+			universidad=Universidad.crear_y_obtener(nombre=kwargs['universidad'])
+		if 'facultad' in kwargs:
+			facultad=Facultad.crear_y_obtener(nombre=kwargs['facultad'])
+		if 'campus' in kwargs:
+			campus=Campus.crear_y_obtener(nombre=kwargs['campus'])
+		if 'programa' in kwargs:
+			programa=Programa.crear_y_obtener(nombre=kwargs['programa'])
+	
+
+		carrera=Carrera.crear_y_obtener(universidad=universidad, facultad=facultad, campus=campus, programa=programa)
+		
+		
+		resultado_guardar=carrera.guardar()
+		self.Exito=resultado_guardar["Exito"]
+		self.MensajePorFallo=resultado_guardar["MensajePorFallo"]
+		return self.obtenerResultado()
+			
+			
+#-----------------------------------------------------------
 
 
 
@@ -178,4 +197,25 @@ class gestor_carrera(ResponseMessage):
             # Si se encuentra la carrera, devuelve el objeto de carrera
             return carrera
 	
+		
+def crear_uni(self, **kwargs):
+		
+		if not self._validar_campos_obligatorios(kwargs):
+			return self.obtenerResultado()
+		
+		nombre = kwargs['nombre']
+
+		#if 'universidad' in kwargs:
+		#	universidad=Universidad.crear_y_obtener(nombre=kwargs['universidad'])
 	
+		universidad=Universidad.crear_y_obtener(nombre=kwargs['universidad'])
+		
+		nueva_universidad = Universidad(nombre=nombre)
+	
+		resultado_crear=nueva_universidad.guardar()
+		self.Resultado=resultado_crear["Resultado"]
+		self.Exito=resultado_crear["Exito"]
+		self.MensajePorFallo=resultado_crear["MensajePorFallo"]
+
+		return self.obtenerResultado()
+		

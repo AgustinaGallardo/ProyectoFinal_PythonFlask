@@ -1,0 +1,27 @@
+{% extends 'comun/base.html' %}
+
+
+{% block content %}
+<div class="container p-2">
+    <h2>Crear Nueva Universidad</h2>
+    <form id="crear-universidad-form" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre"
+                    value="{{ formulario_data.get('nombre', '') }}">
+            </div>
+           
+        </div>
+
+      
+
+
+        <div class="col mb-3 text-center">
+            <button class="btn btn-success btn-sm" type="submit" id="crear-universidad">Crear Universidad</button>
+        </div>
+    </form>
+    <a class="btn btn-primary" href="{{ url_for('routes_carreras.obtener_lista_paginada') }}">Volver a la Lista</a>
+</div>
+{% endblock %}

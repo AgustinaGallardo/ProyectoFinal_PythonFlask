@@ -51,6 +51,19 @@ def crear_carrera():
     return render_template('carreras/crear_carrera.html', formulario_data=formulario_data, csrf=csrf)
 
 
+@carreras_bp.route('/universidad/crear', methods=['GET', 'POST'])
+@login_required
+def crear_universidad():
+    formulario_data = {} 
+    if request.method == 'POST':
+        formulario_data = request.form.to_dict()
+        resultado=gestor_carrera().crear_uni(**formulario_data)
+        if resultado["Exito"]:
+            flash('Universidad creada correctamente', 'success')
+            return redirect(url_for('routes_carreras.obtener_lista_paginada'))
+        else:
+            flash(resultado["MensajePorFallo"], 'warning')
+    return render_template('carreras/crear_universidad.html', formulario_data=formulario_data, csrf=csrf)
 
 
 

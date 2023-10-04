@@ -12,6 +12,10 @@
             <form method="GET" action="{{ url_for('routes_carreras.generar_excel') }}" class="mb-3">
                 <a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}"><i class="fa fa-plus"
                     aria-hidden="true"></i></a>
+
+                <a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_universidad') }}">Crear universidad</a>    
+
+
                 <button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button>
             </form>
         </div>

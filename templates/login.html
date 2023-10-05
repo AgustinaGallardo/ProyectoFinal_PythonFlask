@@ -4,7 +4,7 @@
 
 <!-- Button trigger modal -->
 <div class="d-flex justify-content-center mt-3">
-	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	<button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">
 		Iniciar Sesión
 	</button>
 </div>
@@ -14,20 +14,26 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Iniciar Sesión como Administrador</h1>
+				<h1 class="modal-title fs-5" id="exampleModalLabel"><img style="width: 30px;" src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" /> Iniciar sesión como Administrador</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="container">
-					<h1>Login</h1>
+					
 					<form method="post" action="/login">
 						<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-						<label for="username">Username:</label>
-						<input type="text" name="username" required value="admin"><br>
-						<label for="password"  class="pt-3">Password:</label>
-						<input type="password" name="password" required value="admin"><br>
+						<div class="row d-flex justify-content-start">
+							<div class="col-8 text-end mr-5">
+								<label for="username">Username:</label>
+								<input type="text" name="username" required value="admin"><br>
+
+								<label for="password"  class="pt-3">Password:</label>
+								<input type="password" name="password" required value="admin"><br>
+							</div>
+						</div>
 						
-					</div>
+						
+				</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template,flash, request, redirect, url_for
 from flask_login import login_required
 from modules.common.gestor_carrera import gestor_carrera
+from modules.common.gestor_comun import exportar
 from flask import Blueprint
 from modules.auth import csrf
 from modules.models.entities import Facultad,Universidad,Campus,Programa
@@ -51,6 +52,10 @@ def crear_carrera():
 
 
 
+
+
+
+#@carreras_bp.route('/carreras/editar/', methods=['GET', 'POST'])
 @carreras_bp.route('/carreras/editar/<int:carrera_id>', methods=['GET', 'POST'])
 @login_required
 def editar_carrera(carrera_id):
@@ -84,4 +89,32 @@ def editar_carrera(carrera_id):
 
     return render_template('carreras/editar_carrera.html', formulario_data=formulario_data, carrera=carrera, csrf=csrf)
 
-    
+
+
+
+
+@carreras_bp.route('/carreras/<int:carrera_id>', methods=['POST'])
+@login_required
+def eliminar_carrera(carrera_id):
+    resultado=gestor_carrera().eliminar(carrera_id)
+    if resultado["Exito"]:
+        flash('Carrera eliminada correctamente', 'success')
+    else:
+        flash('Error al eliminar carrera', 'success')
+    return redirect(url_for('routes_carreras.obtener_lista_paginada'))
+
+
+@carreras_bp.route('/carreras/generar_excel', methods=['GET', 'POST'])
+@login_required
+def generar_excel():
+    carreras=gestor_carrera().obtener_todo()
+    carreras_data=[]
+    for carrera in carreras:
+        pd={}
+        pd["Programa"] = carrera.programa.nombre
+        pd["Facultad"] = carrera.facultad.nombre
+        pd["Universidad"] = carrera.universidad.nombre
+        pd["Campus"] = carrera.campus.nombre
+        carreras_data.append(pd)
+
+    return exportar.exportar_excel(carreras_data)

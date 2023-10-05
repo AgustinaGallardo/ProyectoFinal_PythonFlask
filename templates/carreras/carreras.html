@@ -5,7 +5,21 @@
 {% block content %}
 <div class="container p-2 small">
     <h2 class="text-center">Carreras</h2>
-    <a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>
+
+    <div class="row">
+
+        <div>
+            <form method="GET" action="{{ url_for('routes_carreras.generar_excel') }}" class="mb-3">
+                <a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}"><i class="fa fa-plus"
+                    aria-hidden="true"></i></a>
+                <button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button>
+            </form>
+        </div>
+    
+    </div>
+
+    <!--<a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>
+    <button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button> -->
     
     <div id="personas-list">
         <table class="table">
@@ -25,16 +39,24 @@
                     <td>{{ carrera.id }}</td>
                     <td>{{ carrera.programa.nombre }}</td>
                     <td>{{ carrera.facultad.nombre }}</td>
-                    <td>{{  carrera.universidad.nombre}}</td>
+                    <td>{{ carrera.universidad.nombre}}</td>
                     <td>{{ carrera.campus.nombre }}</td>
                     <!-- Modal para confirmar la eliminación -->
                     <td>
                         <a href="{{ url_for('routes_carreras.editar_carrera', carrera_id=carrera.id) }}"
-                            class="btn btn-primary">Editar</a>
-                        <button class="btn btn-danger" data-toggle="modal"
-                            data-target="#eliminarModal{{ carrera.id }}">Eliminar</button>
+                            class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <button class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#eliminarModal{{ carrera.id }}"><i class="fa-regular fa-trash-can"></i></button>
                     </td>
-                </tr> 
+                    </tr>
+                    <!-- Modal para confirmar la eliminación -->
+                    {{ modal_eliminar.confirmar_eliminar(
+                    carrera.id,
+                    url_for('routes_carreras.eliminar_carrera', carrera_id=carrera.id),
+                    '¿Estás seguro de que deseas eliminar el programa ' ~ carrera.programa.nombre ~ ' de la facultad de ' ~ carrera.facultad.nombre ~ '?'
+                    ) }}
+
+
                 {% endfor %}
             </tbody>
         </table>

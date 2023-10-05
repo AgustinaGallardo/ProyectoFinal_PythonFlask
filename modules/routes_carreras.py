@@ -8,6 +8,7 @@ from modules.models.entities import Facultad,Universidad,Campus,Programa
 
 carreras_bp = Blueprint('routes_carreras', __name__)
 
+
 @carreras_bp.route('/carreras', methods=['GET'])
 @login_required
 def obtener_lista_paginada():
@@ -15,7 +16,10 @@ def obtener_lista_paginada():
     carreras, total_paginas = gestor_carrera().obtener_pagina(page)
     return render_template('carreras/carreras.html',carreras=carreras, total_paginas=total_paginas, csrf=csrf)
 
-print(obtener_lista_paginada)
+print(obtener_lista_paginada) 
+
+
+
 
 
 @carreras_bp.route('/carreras/crear', methods=['GET', 'POST'])

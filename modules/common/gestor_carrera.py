@@ -11,7 +11,7 @@ class gestor_carrera(ResponseMessage):
 
 
 	def obtener_pagina(self, pagina, **kwargs):
-		query = Carrera.query
+		query = Carrera.query.filter(Carrera.activo==True)
 		if 'facultad' in kwargs:
 			query = query.filter(Carrera.facultad.ilike(f"%{kwargs['facultad']}%"))
 		if 'universidad' in kwargs:

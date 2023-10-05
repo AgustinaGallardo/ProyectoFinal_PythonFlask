@@ -60,7 +60,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        {{ paginado.render_paginado('routes_carreras.obtener_lista_paginada', carreras) }}
+        {{ paginado.render_paginado('routes_carreras.obtener_lista_paginada', carreras, filtros=filtros) }}
         <a class="btn btn-primary" href="{{ url_for('routes.index') }}">Volver a Inicio</a>
     </div>
 </div>

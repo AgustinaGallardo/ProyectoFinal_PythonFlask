@@ -83,8 +83,17 @@ class gestor_personas(ResponseMessage):
 		self.Resultado = persona
 		return self.obtenerResultado()
 	
+
+
+
+
+
+
+
+	
 	def editar(self, id, **kwargs):
 		persona = Persona.query.get(id)
+
 		if persona==None:
 			self.Exito = False
 			self.MensajePorFallo = "La persona no existe"
@@ -147,12 +156,20 @@ class gestor_personas(ResponseMessage):
 
 		return self.obtenerResultado()
 		
+
+
+
+
+
+
+
 	def eliminar(self, id):
 		persona = Persona.query.get(id)
 		if persona==None:
 			self.Exito = False
 			self.MensajePorFallo = "La persona no existe"
 			return self.obtenerResultado()
+		
 		resultado_borrar=persona.activar(False) # Logica dar de baja.
 		self.Exito=resultado_borrar["Exito"]
 		self.MensajePorFallo=resultado_borrar["MensajePorFallo"]
@@ -176,6 +193,7 @@ class gestor_personas(ResponseMessage):
 		print(kwargs['genero'])
 		print("genero resultado .crear_y_obtener:")
 		print(genero)
+
 		pais=Pais.crear_y_obtener(nombre=kwargs['pais'])
 		print("pais en kwargs:")
 		print(kwargs['pais'])
@@ -185,6 +203,7 @@ class gestor_personas(ResponseMessage):
 		provincia=Provincia.crear_y_obtener(nombre=kwargs['provincia'])
 		ciudad=Ciudad.crear_y_obtener(nombre=kwargs['ciudad'])
 		barrio=Barrio.crear_y_obtener(nombre=kwargs['barrio'])
+		
 		lugar=Lugar.crear_y_obtener(pais=pais,provincia=provincia,ciudad=ciudad, barrio=barrio)
 		print("lugar resultado .crear_y_obtener:")
 		print(lugar)

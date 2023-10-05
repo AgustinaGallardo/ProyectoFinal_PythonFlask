@@ -2,8 +2,107 @@
 
 {% block content %}
 <div class="container">
-    <h1>Bienvenido a mi aplicación Flask API REST</h1>
-        <a class="btn btn-info" href="{{ url_for('routes_personas.obtener_lista_paginada') }}">Personas</a>
-        <a class="btn btn-info" href="{{ url_for('routes_carreras.obtener_lista_paginada') }}">Carreras</a>
+    <h1 class="pt-5 pb-2">Bienvenido a mi aplicación Flask API REST</h1>
+
+    <div class="row">
+        <div class="col-4">
+            <a href="{{ url_for('routes_personas.obtener_lista_paginada') }}" style="text-decoration: none;" >
+                    <div class="card mt-5 mb-5 pr-3" style="width: 18rem; transition: all 0.3s;">
+                        <img src="https://media.istockphoto.com/id/639359406/es/foto/estudiantes-que-estudian-en-la-biblioteca-de-la-universidad.jpg?s=2048x2048&w=is&k=20&c=BNaCCgf0UTSW2GRT4tCQEtuSfdAfZynDGwQ2uDR9qvo=" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Personas</h5>
+                        </div>
+                    </div>
+                </a>
+        </div>
+
+        <div class="col-4">
+
+            <div class="col-4">
+                <a href="{{ url_for('routes_carreras.obtener_lista_paginada') }}" style="text-decoration: none;" >
+                        <div class="card mt-5 mb-5 pr-3" style="width: 18rem; transition: all 0.3s;">
+                            <img src="https://media.istockphoto.com/id/949118068/es/foto/libros.jpg?s=2048x2048&w=is&k=20&c=sQDzwAUCx3utVzaKlwh5ZgjnukwNX8laIKXmnoOfEno=" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">Carreras</h5>
+                            </div>
+                        </div>
+                    </a>
+            </div>
+            
+        </div>
+
+        <div class="col-4">
+
+            <div class="col-4">
+                <a href="{{ url_for('routes_universidades.obtener_lista_paginada') }}" style="text-decoration: none;" >
+                        <div class="card mt-5 mb-5 pr-3" style="width: 18rem; transition: all 0.3s;">
+                            <img src="https://media.istockphoto.com/id/1162166565/es/foto/el-moderno-edificio-de-ense%C3%B1anza-se-encuentra-en-la-universidad-de-shenzhen-china.jpg?s=2048x2048&w=is&k=20&c=REYfKuBuKCYMfhyDYgO3k3hGmd5jJq57IpfuyGjhuvs=" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">Universidades</h5>
+                            </div>
+                        </div>
+                    </a>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <a  href="{{ url_for('routes_facultades.obtener_lista_paginada') }}" style="text-decoration: none;" >
+                    <div class="card mt-5 mb-5 pr-3" style="width: 18rem; transition: all 0.3s;">
+                        <img src="https://media.istockphoto.com/id/1355203653/es/foto/facultad-de-derecho-de-la-universidad-de-buenos-aires.jpg?s=2048x2048&w=is&k=20&c=apgyv9HIgFSpaZygzdva3MVyBFIs2Pd0KRqH8v2qDAg=" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Facultades</h5>
+                        </div>
+                    </div>
+                </a>
+        </div>
+
+        <div class="col-4">
+
+            <div class="col-4">
+                <a href="{{ url_for('routes_campus.obtener_lista_paginada') }}" style="text-decoration: none;" >
+                        <div class="card mt-5 mb-5 pr-3" style="width: 18rem; transition: all 0.3s;">
+                            <img src="https://media.istockphoto.com/id/1307239375/es/vector/escena-de-educaci%C3%B3n-estudiantes-felices-sentados-en-la-hierba-verde-del-parque-de-verano.jpg?s=2048x2048&w=is&k=20&c=UwwR9E_b-jLyvUZFPQ-YVjA6WBEyshJV4LdvQ-PDB1Y=" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">Campus</h5>
+                            </div>
+                        </div>
+                    </a>
+            </div>
+            
+        </div>
+
+        <div class="col-4">
+
+            <div class="col-4">
+                <a href="{{ url_for('routes_programas.obtener_lista_paginada') }}" style="text-decoration: none;" >
+                        <div class="card mt-5 mb-5 pr-3" style="width: 18rem; transition: all 0.3s;">
+                            <img src="https://media.istockphoto.com/id/482929627/es/foto/la-mano-con-un-marcador-de-la-escritura.jpg?s=2048x2048&w=is&k=20&c=ENUtzRISNxpx6iTWDVsLmEEHQ_PxIc6mHaMbpfIHMI8=" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">Programas</h5>
+                            </div>
+                        </div>
+                    </a>
+            </div>
+            
+        </div>
+
+    </div>
+   
+
+    
+    <style>
+        .card:hover{
+            transform: scale(1.15);
+        }
+
+        .card-body {
+            background-color: whitesmoke;
+        }
+    </style>
+
 </div>
 {% endblock %}

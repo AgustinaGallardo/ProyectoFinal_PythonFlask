@@ -25,6 +25,9 @@ def obtener_lista_paginada():
     personas, total_paginas = gestor_personas().obtener_pagina(page, **filtros)
     return render_template('personas/personas.html', personas=personas, total_paginas=total_paginas, csrf=csrf, filtros=filtros)
 
+
+
+
 @personas_bp.route('/personas/editar/', methods=['GET', 'POST'])
 @login_required
 def editar_persona():
@@ -63,12 +66,15 @@ def editar_persona():
             # print("VENGO A CARRERA-PERSONA")
             resultado=gestor_carreras_personas().crear(**formulario_data)
             if resultado["Exito"]:
-                flash('Carrera-Peronsa creada correctamente', 'success')
+                flash('Carrera-Persona creada correctamente', 'success')
                 # return redirect(url_for('routes_personas.obtener_lista_paginada'))
             else:
                 flash(resultado["MensajePorFallo"], 'warning')
 
-        if formulario_data['accion'] == 'eliminar_carrera_persona':
+
+
+       
+        if formulario_data['accion'] == 'eliminar_modal':
                     print("VENGO A eliminar CARRERA-PERSONA")
                     print(carrera_id)
                     
@@ -88,7 +94,8 @@ def editar_persona():
                     # else:
                     #     flash('Error al eliminar carrera de persona', 'success')
                     # return redirect(url_for('routes_personas.obtener_lista_paginada'))
-            
+
+     
 
     resultado=gestor_personas().obtener(persona_id)
 
@@ -100,6 +107,11 @@ def editar_persona():
         flash(resultado["MensajePorFallo"], 'warning')
         return redirect(url_for('routes_personas.obtener_lista_paginada'))
     
+
+
+
+
+
 
 
 
@@ -125,6 +137,7 @@ def editar_carrera_persona():
             #             flash(resultado["MensajePorFallo"], 'warning')
             #             return redirect(url_for('routes_personas.obtener_lista_paginada'))   
             
+            
             if formulario_data['accion'] == 'editar_carrera_persona': #ENTRA POR ACA CUANDO QUEREMOS MODIFICAR UNA CARRERA-PERSONA SELECCIONADA
                 resultado=gestor_carreras_personas().editar(carrera_id, **formulario_data)
                 if resultado["Exito"]:
@@ -141,6 +154,15 @@ def editar_carrera_persona():
     else:
         flash(resultado["MensajePorFallo"], 'warning')
         return redirect(url_for('routes_personas.obtener_lista_paginada'))   
+    
+
+
+
+
+
+
+
+
 
      
 @personas_bp.route('/personas/<int:persona_id>', methods=['POST'])

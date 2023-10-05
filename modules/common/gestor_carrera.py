@@ -42,22 +42,25 @@ class gestor_carrera(ResponseMessage):
 		return carreras
 	
 	def crear(self, **kwargs):
+			facultad_nombre = kwargs.get('facultad')
+			universidad_nombre = kwargs.get('universidad')
+			campus_nombre = kwargs.get('campus')
+			programa_nombre = kwargs.get('programa')
+
+			facultad = Facultad.crear_y_obtener(nombre=facultad_nombre)
+			universidad = Universidad.crear_y_obtener(nombre=universidad_nombre)
+			campus = Campus.crear_y_obtener(nombre=campus_nombre)
+			programa = Programa.crear_y_obtener(nombre=programa_nombre)
+
+			nueva_carrera = Carrera(facultad=facultad, universidad=universidad, campus=campus, programa=programa)
+			resultado_crear = nueva_carrera.guardar()
+			
+			self.Resultado = resultado_crear["Resultado"]
+			self.Exito = resultado_crear["Exito"]
+			self.MensajePorFallo = resultado_crear["MensajePorFallo"]		
+				
+			return self.obtenerResultado()
 		
-		facultad=Facultad.crear_y_obtener(nombre=kwargs['facultad'])
-		universidad=Universidad.crear_y_obtener(nombre=kwargs['universidad'])
-		campus=Campus.crear_y_obtener(nombre=kwargs['campus'])
-		programa=Programa.crear_y_obtener(nombre=kwargs['programa'])		
-		
-		facultad = kwargs['facultad']
-		universidad = kwargs['universidad']
-		campus = kwargs['campus']
-		programa = kwargs['programa']		
-		nueva_carrera = Carrera(facultad=facultad, universidad=universidad, campus=campus, programa=programa)	
-		resultado_crear=nueva_carrera.guardar()
-		self.Resultado=resultado_crear["Resultado"]
-		self.Exito=resultado_crear["Exito"]
-		self.MensajePorFallo=resultado_crear["MensajePorFallo"]
-		return self.obtenerResultado()
 
 	def obtener_todo(self):
 		return Carrera.obtener_todo()

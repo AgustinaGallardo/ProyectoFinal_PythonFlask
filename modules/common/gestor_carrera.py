@@ -125,12 +125,8 @@ class gestor_carrera(ResponseMessage):
 					Exito=False,
 					MensajePorFallo='La carrera no fue encontrada.'
 				)
-			
-			
-	
-
-			
-# Actualiza los campos de la carrera con los valores proporcionados
+		
+			# Actualiza los campos de la carrera con los valores proporcionados
 			if 'facultad' in kwargs:
 				carrera.facultad = kwargs['facultad']
 			if 'universidad' in kwargs:

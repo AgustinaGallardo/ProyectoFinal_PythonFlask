@@ -91,7 +91,7 @@ class CarrerasResource(Resource):
         
         
 
-        @jwt_or_login_required()
+        @jwt_or_login_required()              
         def put(self, carrera_id):
                 args = request.get_json()
                 resultado = gestor_carrera().editar_carrera(carrera_id, **args)            

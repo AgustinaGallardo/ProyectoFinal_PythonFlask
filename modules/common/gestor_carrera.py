@@ -152,9 +152,47 @@ class gestor_carrera(ResponseMessage):
 			)
 	
 			
+	def obtener_universidades(self):
+		return db.session.query(Universidad).distinct().join(Carrera).all()
 
+	def obtener_facultades(self, **kwargs):
+		resultado = (
+			db.session.query(Facultad)
+			.distinct()
+			.join(Carrera)
+			.join(Universidad)
+			.filter(Universidad.nombre == kwargs["universidad"])
+			.all()
+		)
+		return resultado
+	
+	def obtener_campus(self, **kwargs):
+		resultado = (
+			db.session.query(Campus)
+			.distinct()
+			.join(Carrera)
+			.join(Universidad)
+			.join(Facultad)
+			.filter(Universidad.nombre == kwargs["universidad"])
+			.filter(Facultad.nombre == kwargs["facultad"])
+			.all()
+		)
+		return resultado
 
-
+	def obtener_programas(self, **kwargs):
+		resultado = (
+			db.session.query(Programa)
+			.distinct()
+			.join(Carrera)
+			.join(Universidad)
+			.join(Facultad)
+			.join(Campus)
+			.filter(Universidad.nombre == kwargs["universidad"])
+			.filter(Facultad.nombre == kwargs["facultad"])
+			.filter(Campus.nombre == kwargs["campus"])
+			.all()
+		)
+		return resultado
 
 	def eliminar(self, id):
 		carrera = Carrera.query.get(id)
@@ -179,3 +217,9 @@ class gestor_carrera(ResponseMessage):
             return carrera
 	
 	
+	
+	
+
+	
+
+

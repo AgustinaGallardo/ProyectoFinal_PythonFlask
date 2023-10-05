@@ -35,26 +35,34 @@ def crear_carrera():
         if None in [nombre_facultad, nombre_universidad, nombre_campus, nombre_programa]:
             flash('Error: Asegúrate de seleccionar valores válidos para facultad, universidad, campus y programa.', 'warning')
         else:
+            # Verificar si la carrera ya existe en la base de datos
             facultad = Facultad.query.filter_by(nombre=nombre_facultad).first()
             universidad = Universidad.query.filter_by(nombre=nombre_universidad).first()
             campus = Campus.query.filter_by(nombre=nombre_campus).first()
             programa = Programa.query.filter_by(nombre=nombre_programa).first()
 
-            if facultad is None or universidad is None or campus is None or programa is None:
+            if not (facultad and universidad and campus and programa):
                 flash('Error: Asegúrate de seleccionar valores válidos para facultad, universidad, campus y programa.', 'warning')
             else:
-                nueva_carrera = Carrera(facultad=facultad, universidad=universidad, campus=campus, programa=programa)
-                resultado = gestor_carrera().crear(facultad=nombre_facultad,
-                                                    universidad=nombre_universidad,
-                                                    campus=nombre_campus,
-                                                    programa=nombre_programa
-                                                    )
-
-                if resultado["Exito"]:
-                    flash('Carrera creada correctamente', 'success')
-                    return redirect(url_for('routes_carreras.obtener_lista_paginada'))
+                # Verificar si la carrera ya existe en la base de datos
+                if Carrera.query.filter_by(facultad=facultad,
+                                           universidad=universidad,
+                                           campus=campus,
+                                           programa=programa).first():
+                    flash('Error: La carrera ya existe en la base de datos.', 'warning')
                 else:
-                    flash(resultado["MensajePorFallo"], 'warning')
+                    nueva_carrera = Carrera(facultad=facultad, universidad=universidad, campus=campus, programa=programa)
+                    resultado = gestor_carrera().crear(facultad=nombre_facultad,
+                                                        universidad=nombre_universidad,
+                                                        campus=nombre_campus,
+                                                        programa=nombre_programa
+                                                        )
+
+                    if resultado["Exito"]:
+                        flash('Carrera creada correctamente', 'success')
+                        return redirect(url_for('routes_carreras.obtener_lista_paginada'))
+                    else:
+                        flash(resultado["MensajePorFallo"], 'warning')
 
     return render_template('carreras/crear_carrera.html', formulario_data=formulario_data, csrf=csrf)
 

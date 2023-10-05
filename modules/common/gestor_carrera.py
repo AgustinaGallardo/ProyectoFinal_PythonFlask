@@ -1,6 +1,7 @@
 from modules.common.gestor_comun import ResponseMessage, validaciones
 from modules.models.entities import Facultad,Universidad,Campus,Programa,Carrera, db
 from config import registros_por_pagina
+from sqlalchemy.exc import IntegrityError
 
 
 
@@ -9,6 +10,13 @@ class gestor_carrera(ResponseMessage):
 	def __init__(self):
 		super().__init__()
 
+	def _validar_carrera(self, nombre):
+			carrera_existente = Carrera.query.filter_by(nombre=nombre).first()
+			if carrera_existente:
+				self.Exito = False
+				self.MensajePorFallo = "La carrera ya existe en la base de datos."
+				return False
+			return True	
 
 	def obtener_pagina(self, pagina, **kwargs):
 		query = Carrera.query.filter(Carrera.activo==True)
@@ -23,24 +31,8 @@ class gestor_carrera(ResponseMessage):
 			
 		carreras, total_paginas = Carrera.obtener_paginado(query, pagina, registros_por_pagina)
 		return carreras, total_paginas
-	
 		
-	def consultar_carreras(self, **kwargs):
-		query = db.session.query(Carrera)
-
-		if 'facultad' in kwargs and kwargs["facultad"]:
-			query = query.join(Facultad).filter(Facultad.nombre == kwargs["facultad"])
-		if 'universidad' in kwargs and kwargs["universidad"]:
-			query = query.join(Universidad).filter(Universidad.nombre == kwargs["universidad"])
-		if 'campus' in kwargs and kwargs["campus"]:
-			query = query.join(Campus).filter(Campus.nombre == kwargs["campus"])
-		if 'programa' in kwargs and kwargs["programa"]:
-			query = query.join(Programa).filter(Programa.nombre == kwargs["programa"])
-
-		carreras = query.all()
-
-		return carreras
-	
+		
 	def crear(self, **kwargs):
 			facultad_nombre = kwargs.get('facultad')
 			universidad_nombre = kwargs.get('universidad')
@@ -60,6 +52,22 @@ class gestor_carrera(ResponseMessage):
 			self.MensajePorFallo = resultado_crear["MensajePorFallo"]		
 				
 			return self.obtenerResultado()
+	
+	def consultar_carreras(self, **kwargs):
+		query = db.session.query(Carrera) 
+
+		if 'universidad' in kwargs and kwargs["universidad"]:
+			query = query.join(Universidad).filter(Universidad.nombre == kwargs["universidad"])
+		if 'facultad' in kwargs and kwargs["facultad"]:
+			query = query.join(Facultad).filter(Facultad.nombre == kwargs["facultad"])
+		if 'campus' in kwargs and kwargs["campus"]:
+			query = query.join(Campus).filter(Campus.nombre == kwargs["campus"])
+		if 'programa' in kwargs and kwargs["programa"]:
+			query = query.join(Programa).filter(Programa.nombre == kwargs["programa"])
+
+		carreras = query.all()
+
+		return carreras
 		
 
 	def obtener_todo(self):
@@ -169,16 +177,4 @@ class gestor_carrera(ResponseMessage):
 		self.Exito=resultado_borrar["Exito"]
 		self.MensajePorFallo=resultado_borrar["MensajePorFallo"]
 		return self.obtenerResultado()
-	
-	def obtener_por_id(self, carrera_id):
-            # Busca la carrera por su ID
-            carrera = Carrera.query.get(carrera_id)
-
-            if not carrera:
-                # Si no se encuentra la carrera, devuelve None
-                return None
-
-            # Si se encuentra la carrera, devuelve el objeto de carrera
-            return carrera
-	
 	

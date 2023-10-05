@@ -73,7 +73,8 @@ def editar_persona():
 
 
 
-        if formulario_data['accion'] == 'eliminar_carrera_persona':
+       
+        if formulario_data['accion'] == 'eliminar_modal':
                     print("VENGO A eliminar CARRERA-PERSONA")
                     print(carrera_id)
                     

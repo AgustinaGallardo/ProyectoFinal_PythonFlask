@@ -1,0 +1,42 @@
+{% macro confirmar_editar(id, entidadnombre, edit_route, entidad) %}
+<div class="modal fade" id="editarModal{{ id }}" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel{{ id }}"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarModalLabel{{ id }}">Editar {{entidad}}</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form id="editar-universidad-form" action="{{ edit_route }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="accion" value="editar_modal"> <!--Agregado para identificar accion y que vaya por la condicional adecuada-->
+
+                            <div class="col mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="nombre" class="form-control" id="nombre" name="nombre" value="{{ entidadnombre }}">
+                            </div>
+
+                     
+
+                        <div class="col mb-3 text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-success" type="submit">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form action="{{ edit_route }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger">Guardar</button>
+                </form>
+            </div> -->
+        </div>
+    </div>
+</div>
+{% endmacro %}

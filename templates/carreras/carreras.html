@@ -39,14 +39,14 @@
                     <td>{{ carrera.id }}</td>
                     <td>{{ carrera.programa.nombre }}</td>
                     <td>{{ carrera.facultad.nombre }}</td>
-                    <td>{{  carrera.universidad.nombre}}</td>
+                    <td>{{ carrera.universidad.nombre}}</td>
                     <td>{{ carrera.campus.nombre }}</td>
                     <!-- Modal para confirmar la eliminación -->
                     <td>
                         <a href="{{ url_for('routes_carreras.editar_carrera', carrera_id=carrera.id) }}"
-                            class="btn btn-primary">Editar</a>
+                            class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
                         <button class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#eliminarModal{{ carrera.id }}">Eliminar</button>
+                            data-bs-target="#eliminarModal{{ carrera.id }}"><i class="fa-regular fa-trash-can"></i></button>
                     </td>
                     </tr>
                     <!-- Modal para confirmar la eliminación -->

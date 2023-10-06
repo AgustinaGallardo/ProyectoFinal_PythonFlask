@@ -6,16 +6,16 @@ from modules.common.gestor_carrera import gestor_carrera
 class CarrerasResource(Resource):    
         @jwt_or_login_required()
         def get(self, carrera_type=None):
-            if not carrera_type:
+            if not carrera_type:                
                 data = request.get_json()
-                facultad = data.get('facultad')
                 universidad = data.get('universidad')
+                facultad = data.get('facultad')                
                 campus = data.get('campus')
                 programa = data.get('programa')
 
                 carreras = gestor_carrera().consultar_carreras(
-                    facultad=facultad,
                     universidad=universidad,
+                    facultad=facultad,                    
                     campus=campus,
                     programa=programa)
 
@@ -35,11 +35,6 @@ class CarrerasResource(Resource):
                 universidades_data = [universidad.serialize() for universidad in universidades]
                 return {"Exito": True, "MensajePorFallo": None, "Resultado": universidades_data}, 200
 
-            # elif carrera_type == 'obtener_facultades':
-            #     facultades = gestor_carrera().consultar_facultades()
-            #     facultades_data = [facultad.serialize() for facultad in facultades]
-            #     return {"Exito": True, "MensajePorFallo": None, "Resultado": facultades_data}, 200
-            
             else:
                 return {"Exito": False, "MensajePorFallo": "Recurso no definido", "Resultado": None}, 400
             

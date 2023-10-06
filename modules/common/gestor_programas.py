@@ -94,6 +94,13 @@ class gestor_programas(ResponseMessage):
 
     def obtener_todo(self):
         return Programa.obtener_todo()
+    
+    def consultar_programas(self, **kwargs):
+        programas = (
+			db.session.query(Programa)
+			.all()
+		)
+        return programas
 
 
 

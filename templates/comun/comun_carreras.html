@@ -1,0 +1,121 @@
+{% macro campos_carreras(selected_universidad,selected_facultad,selected_campus,selected_programa) %}
+<div class="col mb-3">
+	<label for="universidad" class="form-label">Universidad</label>
+	<select class="form-control" id="universidad" name="universidad">
+		<option value="" selected>Seleccionar Universidad</option>
+	</select>
+</div>
+<div class="col mb-3">
+	<label for="facultad" class="form-label">Facultad</label>
+	<select class="form-control" id="facultad" name="facultad">
+		<option value="" selected>Seleccionar Facultad</option>
+	</select>
+</div>
+<div class="col mb-3">
+	<label for="campus" class="form-label">Campus</label>
+	<select class="form-control" id="campus" name="campus">
+		<option value="" selected>Seleccionar Campus</option>
+	</select>
+</div>
+<div class="col mb-3">
+	<label for="programa" class="form-label">Programa</label>
+	<select class="form-control" id="programa" name="programa">
+		<option value="" selected>Seleccionar Programa</option>
+	</select>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const universidadSelect = document.getElementById("universidad");
+		const facultadSelect = document.getElementById("facultad");
+		const campusSelect = document.getElementById("campus");
+		const programaSelect = document.getElementById("programa");
+		const seleccionUniversidadAnterior = "{{ selected_universidad }}"; // Valor enviado desde la macro
+		const seleccionFacultadAnterior = "{{ selected_facultad }}"; // Valor enviado desde la macro
+		const seleccionCampusAnterior = "{{ selected_campus }}"; // Valor enviado desde la macro
+		const seleccionProgramaAnterior = "{{ selected_programa }}"; // Valor enviado desde la macro
+
+		// Cargar opciones de Universidad desde la API
+		fetch('/api/carreras/obtener_universidades')
+			.then(response => response.json())
+			.then(data => {
+				if (data.Exito) {
+					const universidades = data.Resultado;
+					universidades.forEach(universidad => {
+						const option = document.createElement("option");
+						option.value = universidad.nombre;
+						option.textContent = universidad.nombre;
+						universidadSelect.appendChild(option);
+						if (universidad.nombre===seleccionUniversidadAnterior){universidadSelect.value = seleccionUniversidadAnterior;}
+					});
+				}
+			})
+			.catch(error => console.error("Error al cargar los universidades:", error));
+
+			fetch('/api/carreras/obtener_facultades', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ universidad: '' })
+				})
+					.then(response => response.json())
+					.then(data => {
+						if (data.Exito) {
+							const facultads = data.Resultado;
+							facultads.forEach(facultad => {
+								const option = document.createElement("option");
+								option.value = facultad.nombre;
+								option.textContent = facultad.nombre;
+								facultadSelect.appendChild(option);
+								if (facultad.nombre===seleccionFacultadAnterior){facultadSelect.value = seleccionFacultadAnterior;}
+							});
+						}
+					})
+					.catch(error => console.error("Error al cargar las facultads:", error));
+		
+				fetch('/api/carreras/obtener_campus', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ universidad: '', facultad: '' })
+				})
+					.then(response => response.json())
+					.then(data => {
+						if (data.Exito) {
+							const campuses = data.Resultado;
+							campuses.forEach(campus => {
+								const option = document.createElement("option");
+								option.value = campus.nombre;
+								option.textContent = campus.nombre;
+								campusSelect.appendChild(option);
+								if (campus.nombre===seleccionCampusAnterior){campusSelect.value = seleccionCampusAnterior;}
+							});
+						}
+					})
+					.catch(error => console.error("Error al cargar las campuses:", error));
+		
+				fetch('/api/carreras/obtener_programas', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ universidad: '', facultad: '', campus: '' })
+				})
+					.then(response => response.json())
+					.then(data => {
+						if (data.Exito) {
+							const programas = data.Resultado;
+							programas.forEach(programa => {
+								const option = document.createElement("option");
+								option.value = programa.nombre;
+								option.textContent = programa.nombre;
+								programaSelect.appendChild(option);
+								if (programa.nombre===seleccionProgramaAnterior){programaSelect.value = seleccionProgramaAnterior;}
+							});
+						}
+					})
+					.catch(error => console.error("Error al cargar los programas:", error));
+		});
+</script>
+{% endmacro %}

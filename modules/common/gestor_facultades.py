@@ -95,3 +95,9 @@ class gestor_facultades(ResponseMessage):
     def obtener_todo(self):
         return Facultad.obtener_todo()
 	
+    def consultar_facultades(self, **kwargs):
+            facultades = (
+                db.session.query(Facultad)
+                .all()
+            )
+            return facultades

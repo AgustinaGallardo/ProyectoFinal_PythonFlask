@@ -94,6 +94,13 @@ class gestor_campus(ResponseMessage):
 
     def obtener_todo(self):
         return Campus.obtener_todo()
+    
+    def consultar_campus(self, **kwargs):
+        campus = (
+			db.session.query(Campus)
+			.all()
+		)
+        return campus
 
 
 

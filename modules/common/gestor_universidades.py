@@ -94,6 +94,13 @@ class gestor_universidades(ResponseMessage):
 
     def obtener_todo(self):
         return Universidad.obtener_todo()
+    
+    def consultar_universidades(self, **kwargs):        
+        universidades = (
+			db.session.query(Universidad)			
+			.all()
+		)
+        return universidades
 
 
 

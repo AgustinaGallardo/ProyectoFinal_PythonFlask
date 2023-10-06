@@ -82,6 +82,29 @@ class gestor_personas(ResponseMessage):
 			return self.obtenerResultado()
 		self.Resultado = persona
 		return self.obtenerResultado()
+
+	def obtener_todo_por_filtro(self,**kwargs):
+		query = Persona.query.filter(Persona.activo==True)
+		if 'nombre' in kwargs:
+			query = query.filter(Persona.nombre.ilike(f"%{kwargs['nombre']}%"))
+		if 'apellido' in kwargs:
+			query = query.filter(Persona.apellido.ilike(f"%{kwargs['apellido']}%"))
+		if 'personal_id' in kwargs:
+			query = query.filter(Persona.personal_id.ilike(f"%{kwargs['personal_id']}%"))
+		if 'email' in kwargs:
+			query = query.filter(Persona.email.ilike(f"%{kwargs['email']}%"))
+		if 'genero' in kwargs:
+			query = query.join(Genero).filter(Genero.nombre == kwargs['genero'])
+		if 'pais' in kwargs:
+			query = query.join(Lugar).join(Pais).filter(Pais.nombre.ilike(f"%{kwargs['pais']}%"))
+		if 'provincia' in kwargs:
+			query = query.join(Lugar).join(Provincia).filter(Provincia.nombre.ilike(f"%{kwargs['provincia']}%"))
+		if 'ciudad' in kwargs:
+			query = query.join(Lugar).join(Ciudad).filter(Ciudad.nombre.ilike(f"%{kwargs['ciudad']}%"))
+		if 'barrio' in kwargs:
+			query = query.join(Lugar).join(Barrio).filter(Barrio.nombre.ilike(f"%{kwargs['barrio']}%"))
+
+		return query.all()
 	
 
 

@@ -13,14 +13,18 @@ carreras_bp = Blueprint('routes_carreras', __name__)
 @login_required
 def obtener_lista_paginada():
     page = request.args.get('page', default=1, type=int)
-    carreras, total_paginas = gestor_carrera().obtener_pagina(page)
-    return render_template('carreras/carreras.html',carreras=carreras, total_paginas=total_paginas, csrf=csrf)
-
-print(obtener_lista_paginada) 
-
-
-
-
+    programa = request.args.get('programa', default="", type=str)
+    facultad = request.args.get('facultad', default="", type=str)
+    campus = request.args.get('campus', default="", type=str)
+    universidad = request.args.get('universidad', default="", type=str)
+    filtros = {
+        'programa': programa,
+        'facultad': facultad,
+        'campus': campus,
+        'universidad': universidad
+    }
+    carreras, total_paginas = gestor_carrera().obtener_pagina(page, **filtros)
+    return render_template('carreras/carreras.html',carreras=carreras, total_paginas=total_paginas, csrf=csrf, filtros=filtros)
 
 @carreras_bp.route('/carreras/crear', methods=['GET', 'POST'])
 @login_required
@@ -120,7 +124,17 @@ def eliminar_carrera(carrera_id):
 @carreras_bp.route('/carreras/generar_excel', methods=['GET', 'POST'])
 @login_required
 def generar_excel():
-    carreras=gestor_carrera().obtener_todo()
+    programa = request.args.get('programa', default="", type=str)
+    facultad = request.args.get('facultad', default="", type=str)
+    campus = request.args.get('campus', default="", type=str)
+    universidad = request.args.get('universidad', default="", type=str)
+    filtros = {
+        'programa': programa,
+        'facultad': facultad,
+        'campus': campus,
+        'universidad': universidad
+    }
+    carreras=gestor_carrera().obtener_todo_por_filtro(**filtros)
     carreras_data=[]
     for carrera in carreras:
         pd={}

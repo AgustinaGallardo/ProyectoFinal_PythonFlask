@@ -13,8 +13,8 @@ campus_bp = Blueprint('routes_campus', __name__)
 @campus_bp.route('/campus', methods=['GET'])
 @login_required
 def obtener_lista_paginada():
-    nombre = request.args.get('nombre', default="", type=str)
     page = request.args.get('page', default=1, type=int)
+    nombre = request.args.get('nombre', default="", type=str)
     filtros = {
         'nombre': nombre
     }
@@ -63,7 +63,11 @@ def crear_editar_eliminar_campus(campus_id):
 @campus_bp.route('/campus/generar_excel', methods=['GET', 'POST'])
 @login_required
 def generar_excel():
-    campus=gestor_campus().obtener_todo()
+    nombre = request.args.get('nombre', default="", type=str)
+    filtros = {
+        'nombre': nombre
+    }
+    campus=gestor_campus().obtener_todo_por_filtro(**filtros)
     campus_data=[]
     for campus in campus:
         pd={}

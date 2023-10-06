@@ -10,6 +10,7 @@ from modules.routes_campus import campus_bp
 from modules.routes_programas import programas_bp
 from modules.routes_carreras import carreras_bp
 from modules.apis.personas import PersonasResource
+from modules.apis.carreras import CarrerasResource
 from modules.apis.lugares import LugaresResource
 from modules.apis.generos import GenerosResource
 from modules.apis.carreras import CarrerasResource

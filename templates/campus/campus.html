@@ -15,7 +15,7 @@
 			<a class="btn btn-success mb-3" data-bs-toggle="modal"
 					data-bs-target="#agregarModal" ><i class="fa fa-plus"
 					aria-hidden="true"></i></a>
-
+				<input type="hidden" name="nombre" value="{{ filtros.get('nombre', '') }}">
 			<button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button>
 
 		</form>
@@ -37,53 +37,56 @@
 </form>
 
 <div id="campus-list">
-	<table class="table">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Nombre</th>
-				<th></th>
-				<!-- ... (otros encabezados) ... -->
-			</tr>
-		</thead>
+	<div class="table-responsive">
+
+		<table class="table align-middle">
+			<thead>
+				<tr class="table-secondary">
+					<th>ID</th>
+					<th>Nombre</th>
+					<th></th>
+					<!-- ... (otros encabezados) ... -->
+				</tr>
+			</thead>
 		<tbody>
 			{% for campus in campus.items %}
-			<tr>
+			<tr class="table-light">
 				<td>{{ campus.id }}</td>
-				<td>{{ campus.nombre }}</td>
+				<td >{{ campus.nombre }}</td>
 				<!-- ... (otros campos) ... -->
 				<td>
 					<button 	class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#editarModal{{ campus.id }}"><i class="fa-regular fa-pen-to-square"></i></button>
 					<button class="btn btn-danger" data-bs-toggle="modal"
-						data-bs-target="#eliminarModal{{ campus.id }}"><i class="fa-regular fa-trash-can"></i></button>
+					data-bs-target="#eliminarModal{{ campus.id }}"><i class="fa-regular fa-trash-can"></i></button>
 				</td>
 			</tr>
 			<!-- Modal para confirmar la eliminación -->
 			{{ modal_eliminar.confirmar_eliminar(
-			campus.id,
-			url_for('routes_campus.crear_editar_eliminar_campus', campus_id=campus.id),
-			'¿Estás seguro de que deseas eliminar ' ~ campus.nombre ~ ' '~ '?'
-			) }}
-
-			<!-- Modal para editar -->
-			{{ modal_editar.confirmar_editar(
 				campus.id,
-				campus.nombre,
-				url_for('routes_campus.crear_editar_eliminar_campus', campus_id=campus.id), 'Campus'
+				url_for('routes_campus.crear_editar_eliminar_campus', campus_id=campus.id),
+				'¿Estás seguro de que deseas eliminar ' ~ campus.nombre ~ ' '~ '?'
 				) }}
-
-			
-				<!-- Modal para agregar -->
-			{{ modal_agregar.confirmar_agregar(
-				url_for('routes_campus.crear_editar_eliminar_campus', campus_id= 0), 'Campus'
-				) }}
-
-			
-			{% endfor %}
-		</tbody>
-	</table>
-
+				
+				<!-- Modal para editar -->
+				{{ modal_editar.confirmar_editar(
+					campus.id,
+					campus.nombre,
+					url_for('routes_campus.crear_editar_eliminar_campus', campus_id=campus.id), 'Campus'
+					) }}
+					
+					
+					<!-- Modal para agregar -->
+					{{ modal_agregar.confirmar_agregar(
+						url_for('routes_campus.crear_editar_eliminar_campus', campus_id= 0), 'Campus'
+						) }}
+						
+						
+						{% endfor %}
+					</tbody>
+				</table>
+		</div>
+				
 	{{ paginado.render_paginado('routes_campus.obtener_lista_paginada', campus, filtros=filtros) }}
 
 	<a class="btn btn-primary" href="{{ url_for('routes.index') }}">Volver a Inicio</a>

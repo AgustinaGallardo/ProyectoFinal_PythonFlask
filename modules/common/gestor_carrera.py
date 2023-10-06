@@ -9,25 +9,26 @@ class gestor_carrera(ResponseMessage):
 
 	def __init__(self):
 		super().__init__()
-
-	def _validar_carrera(self, nombre):
-			carrera_existente = Carrera.query.filter_by(nombre=nombre).first()
-			if carrera_existente:
-				self.Exito = False
-				self.MensajePorFallo = "La carrera ya existe en la base de datos."
-				return False
-			return True	
+	
+	campos_obligatorios = {
+		'facultad': 'La facultad es obligatoria',
+		'universidad': 'La universidad es obligatoria',
+		'programa': 'El programa es obligatorio',
+		'campus': 'El campus es obligatorio',
+		
+	}
+		
 
 	def obtener_pagina(self, pagina, **kwargs):
 		query = Carrera.query.filter(Carrera.activo==True)
 		if 'facultad' in kwargs:
-			query = query.filter(Carrera.facultad.ilike(f"%{kwargs['facultad']}%"))
+			query = query.join(Facultad).filter(Facultad.nombre.ilike(f"%{kwargs['facultad']}%"))
 		if 'universidad' in kwargs:
-			query = query.filter(Carrera.universidad.ilike(f"%{kwargs['universidad']}%"))
+			query = query.join(Universidad).filter(Universidad.nombre.ilike(f"%{kwargs['universidad']}%"))
 		if 'campus' in kwargs:
-			query = query.filter(Carrera.campus.ilike(f"%{kwargs['campus']}%"))
+			query = query.join(Campus).filter(Campus.nombre.ilike(f"%{kwargs['campus']}%"))
 		if 'programa' in kwargs:
-			query = query.filter(Carrera.programa.ilike(f"%{kwargs['programa']}%"))
+			query = query.join(Programa).filter(Programa.nombre.ilike(f"%{kwargs['programa']}%"))
 			
 		carreras, total_paginas = Carrera.obtener_paginado(query, pagina, registros_por_pagina)
 		return carreras, total_paginas
@@ -177,4 +178,31 @@ class gestor_carrera(ResponseMessage):
 		self.Exito=resultado_borrar["Exito"]
 		self.MensajePorFallo=resultado_borrar["MensajePorFallo"]
 		return self.obtenerResultado()
+
+	def obtener_todo_por_filtro(self,**kwargs):
+		query = Carrera.query.filter(Carrera.activo==True)
+		if 'facultad' in kwargs:
+			query = query.join(Facultad).filter(Facultad.nombre.ilike(f"%{kwargs['facultad']}%"))
+		if 'universidad' in kwargs:
+			query = query.join(Universidad).filter(Universidad.nombre.ilike(f"%{kwargs['universidad']}%"))
+		if 'campus' in kwargs:
+			query = query.join(Campus).filter(Campus.nombre.ilike(f"%{kwargs['campus']}%"))
+		if 'programa' in kwargs:
+			query = query.join(Programa).filter(Programa.nombre.ilike(f"%{kwargs['programa']}%"))
+			
+		return query.all()
+		
+	
+	def obtener_por_id(self, carrera_id):
+        # Busca la carrera por su ID
+            carrera = Carrera.query.get(carrera_id)
+
+            if not carrera:
+                # Si no se encuentra la carrera, devuelve None
+                return None
+
+            # Si se encuentra la carrera, devuelve el objeto de carrera
+            return carrera
+
+
 	

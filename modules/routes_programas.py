@@ -13,8 +13,8 @@ programas_bp = Blueprint('routes_programas', __name__)
 @programas_bp.route('/programas', methods=['GET'])
 @login_required
 def obtener_lista_paginada():
-    nombre = request.args.get('nombre', default="", type=str)
     page = request.args.get('page', default=1, type=int)
+    nombre = request.args.get('nombre', default="", type=str)
     filtros = {
         'nombre': nombre
     }
@@ -63,7 +63,11 @@ def crear_editar_eliminar_programa(programa_id):
 @programas_bp.route('/programas/generar_excel', methods=['GET', 'POST'])
 @login_required
 def generar_excel():
-    programas=gestor_programas().obtener_todo()
+    nombre = request.args.get('nombre', default="", type=str)
+    filtros = {
+        'nombre': nombre
+    }
+    programas=gestor_programas().obtener_todo_por_filtro(**filtros)
     programas_data=[]
     for programa in programas:
         pd={}

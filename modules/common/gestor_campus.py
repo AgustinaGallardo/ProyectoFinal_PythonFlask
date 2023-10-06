@@ -26,6 +26,13 @@ class gestor_campus(ResponseMessage):
     def obtener_campus(self):
         return db.session.query(Campus).distinct().join(Carrera).all()
     
+    def obtener_todo_por_filtro(self,**kwargs):
+        query = Campus.query.filter(Campus.activo==True)
+        if 'nombre' in kwargs:
+            query = query.filter(Campus.nombre.ilike(f"%{kwargs['nombre']}%"))
+            
+        return query.all()
+    
 
 	
     def obtener_pagina(self, pagina, **kwargs):

@@ -15,7 +15,7 @@
 			<a class="btn btn-success mb-3" data-bs-toggle="modal"
 					data-bs-target="#agregarModal" ><i class="fa fa-plus"
 					aria-hidden="true"></i></a>
-
+				<input type="hidden" name="nombre" value="{{ filtros.get('nombre', '') }}">
 			<button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button>
 
 		</form>
@@ -37,9 +37,9 @@
 </form>
 
 <div id="facultades-list">
-	<table class="table">
+	<table class="table align-middle">
 		<thead>
-			<tr>
+			<tr class="table-secondary">
 				<th>ID</th>
 				<th>Nombre</th>
 				<th></th>
@@ -48,7 +48,7 @@
 		</thead>
 		<tbody>
 			{% for facultad in facultades.items %}
-			<tr>
+			<tr class="table-light">
 				<td>{{ facultad.id }}</td>
 				<td>{{ facultad.nombre }}</td>
 				<!-- ... (otros campos) ... -->

@@ -114,7 +114,17 @@ def eliminar_carrera(carrera_id):
 @carreras_bp.route('/carreras/generar_excel', methods=['GET', 'POST'])
 @login_required
 def generar_excel():
-    carreras=gestor_carrera().obtener_todo()
+    programa = request.args.get('programa', default="", type=str)
+    facultad = request.args.get('facultad', default="", type=str)
+    campus = request.args.get('campus', default="", type=str)
+    universidad = request.args.get('universidad', default="", type=str)
+    filtros = {
+        'programa': programa,
+        'facultad': facultad,
+        'campus': campus,
+        'universidad': universidad
+    }
+    carreras=gestor_carrera().obtener_todo_por_filtro(**filtros)
     carreras_data=[]
     for carrera in carreras:
         pd={}

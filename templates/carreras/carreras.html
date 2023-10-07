@@ -12,19 +12,43 @@
             <form method="GET" action="{{ url_for('routes_carreras.generar_excel') }}" class="mb-3">
                 <a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}"><i class="fa fa-plus"
                     aria-hidden="true"></i></a>
+                    <input type="hidden" name="programa" value="{{ filtros.get('programa', '') }}">
+                    <input type="hidden" name="facultad" value="{{ filtros.get('facultad', '') }}">
+                    <input type="hidden" name="universidad" value="{{ filtros.get('universidad', '') }}">
+                    <input type="hidden" name="campus" value="{{ filtros.get('campus', '') }}">
                 <button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button>
             </form>
         </div>
     
     </div>
 
-    <!--<a class="btn btn-success mb-3" href="{{ url_for('routes_carreras.crear_carrera') }}">Agregar carrera</a>
-    <button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button> -->
+    <form method="GET" action="{{ url_for('routes_carreras.obtener_lista_paginada') }}" class="mb-3">
+        <div class="row">
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="programa" placeholder="Programa"
+                    value="{{ filtros.get('programa', '') }}">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="facultad" placeholder="Facultad"
+                    value="{{ filtros.get('facultad', '') }}">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="universidad" placeholder="Universidad"
+                    value="{{ filtros.get('universidad', '') }}">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="campus" placeholder="Campus"
+                    value="{{ filtros.get('campus', '') }}">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
+            </div>
+        </div>
+    </form>
     
-    <div id="personas-list">
-        <table class="table">
+        <table class="table align-middle">
             <thead>
-                <tr>
+                <tr class="table-secondary">
                     <th>ID</th>
                     <th>Programa</th>
                     <th>Facultad</th>
@@ -35,7 +59,7 @@
             </thead>
             <tbody>
                 {% for carrera in carreras.items %}
-                <tr>
+                <tr class="table-light">
                     <td>{{ carrera.id }}</td>
                     <td>{{ carrera.programa.nombre }}</td>
                     <td>{{ carrera.facultad.nombre }}</td>
@@ -60,7 +84,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        {{ paginado.render_paginado('routes_carreras.obtener_lista_paginada', carreras) }}
+        {{ paginado.render_paginado('routes_carreras.obtener_lista_paginada', carreras, filtros=filtros) }}
         <a class="btn btn-primary" href="{{ url_for('routes.index') }}">Volver a Inicio</a>
     </div>
 </div>

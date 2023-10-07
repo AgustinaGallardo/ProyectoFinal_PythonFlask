@@ -35,6 +35,13 @@ class gestor_facultades(ResponseMessage):
 
         facultades, total_paginas = Facultad.obtener_paginado(query, pagina, registros_por_pagina)
         return facultades, total_paginas
+    
+    def obtener_todo_por_filtro(self,**kwargs):
+        query = Facultad.query.filter(Facultad.activo==True)
+        if 'nombre' in kwargs:
+            query = query.filter(Facultad.nombre.ilike(f"%{kwargs['nombre']}%"))
+            
+        return query.all()
 
 
     def eliminar(self, id):

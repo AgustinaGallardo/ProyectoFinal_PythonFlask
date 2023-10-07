@@ -13,8 +13,8 @@ facultades_bp = Blueprint('routes_facultades', __name__)
 @facultades_bp.route('/facultades', methods=['GET'])
 @login_required
 def obtener_lista_paginada():
-    nombre = request.args.get('nombre', default="", type=str)
     page = request.args.get('page', default=1, type=int)
+    nombre = request.args.get('nombre', default="", type=str)
     filtros = {
         'nombre': nombre
     }
@@ -63,11 +63,19 @@ def crear_editar_eliminar_facultad(facultad_id):
 @facultades_bp.route('/facultades/generar_excel', methods=['GET', 'POST'])
 @login_required
 def generar_excel():
-    facultades=gestor_facultades().obtener_todo()
+    nombre = request.args.get('nombre', default="", type=str)
+    filtros = {
+        'nombre': nombre
+    }
+    facultades=gestor_facultades().obtener_todo_por_filtro(**filtros)
     facultades_data=[]
-    for facultad in facultades:
-        pd={}
-        pd["Nombre"] = facultad.nombre
-        facultades_data.append(pd)
 
-    return exportar.exportar_excel(facultades_data)
+    if(len(facultades) > 0): #valida que exista al menos un registro, sino se rompe
+
+        for facultad in facultades:
+            pd={}
+            pd["Nombre"] = facultad.nombre
+            facultades_data.append(pd)
+
+        return exportar.exportar_excel(facultades_data)
+    return redirect(url_for('routes_facultades.obtener_lista_paginada'))

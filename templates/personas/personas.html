@@ -13,6 +13,9 @@
 		<form method="GET" action="{{ url_for('routes_personas.generar_excel') }}" class="mb-3">
 			<a class="btn btn-success mb-3" href="{{ url_for('routes_personas.crear_persona') }}"><i class="fa fa-plus"
 				aria-hidden="true"></i></a>
+				<input type="hidden" name="nombre" value="{{ filtros.get('nombre', '') }}">
+				<input type="hidden" name="apellido" value="{{ filtros.get('apellido', '') }}">
+				<input type="hidden" name="email" value="{{ filtros.get('email', '') }}">
 			<button class="btn btn-info mb-3" type="submit"><i class="fa-regular fa-file-excel"></i></button>
 		</form>
 	</div>
@@ -40,9 +43,9 @@
 </form>
 
 <div id="personas-list">
-	<table class="table">
+	<table class="table align-middle">
 		<thead>
-			<tr>
+			<tr class="table-secondary">
 				<th>ID</th>
 				<th>Nombre</th>
 				<th>Apellido</th>
@@ -55,7 +58,7 @@
 		</thead>
 		<tbody>
 			{% for persona in personas.items %}
-			<tr>
+			<tr class="table-light">
 				<td>{{ persona.id }}</td>
 				<td>{{ persona.nombre }}</td>
 				<td>{{ persona.apellido }}</td>
@@ -64,10 +67,12 @@
 				<td>{{ persona.genero.nombre }}</td>
 				<!-- ... (otros campos) ... -->
 				<td>
-					<a href="{{ url_for('routes_personas.editar_persona', persona_id=persona.id) }}"
-						class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
-					<button class="btn btn-danger" data-bs-toggle="modal"
-						data-bs-target="#eliminarModal{{ persona.id }}"><i class="fa-regular fa-trash-can"></i></button>
+					<div >
+						<a href="{{ url_for('routes_personas.editar_persona', persona_id=persona.id) }}"
+							class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
+						<button class="btn btn-danger" data-bs-toggle="modal"
+							data-bs-target="#eliminarModal{{ persona.id }}"><i class="fa-regular fa-trash-can"></i></button>
+					</div>
 				</td>
 			</tr>
 			<!-- Modal para confirmar la eliminación -->
@@ -80,7 +85,6 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
 	{{ paginado.render_paginado('routes_personas.obtener_lista_paginada', personas, filtros=filtros) }}
 
 	<a class="btn btn-primary" href="{{ url_for('routes.index') }}">Volver a Inicio</a>

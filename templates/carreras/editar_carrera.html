@@ -3,7 +3,7 @@
 {{ universidades }}
 {{ campus }}
 {{ programas }}
-{% import 'comun/carreras.html' as carrerasSelect %}
+{% import 'comun/carreras_noRelacionadas.html' as carrerasSelect %}
 
 {% block content %}
 <div class="container p-2">
@@ -15,7 +15,7 @@
 
         <div class="row mb-3">
 
-            {{ carrerasSelect.campos_carreras(carrera.universidad.nombre,
+            {{ carrerasSelect.campos_carrerasNorelacionadas(carrera.universidad.nombre,
             carrera.facultad.nombre,
             carrera.campus.nombre,carrera.programa.nombre) }}
         </div>

@@ -69,9 +69,13 @@ def generar_excel():
     }
     facultades=gestor_facultades().obtener_todo_por_filtro(**filtros)
     facultades_data=[]
-    for facultad in facultades:
-        pd={}
-        pd["Nombre"] = facultad.nombre
-        facultades_data.append(pd)
 
-    return exportar.exportar_excel(facultades_data)
+    if(len(facultades) > 0): #valida que exista al menos un registro, sino se rompe
+
+        for facultad in facultades:
+            pd={}
+            pd["Nombre"] = facultad.nombre
+            facultades_data.append(pd)
+
+        return exportar.exportar_excel(facultades_data)
+    return redirect(url_for('routes_facultades.obtener_lista_paginada'))

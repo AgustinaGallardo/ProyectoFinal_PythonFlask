@@ -15,6 +15,8 @@ from modules.apis.lugares import LugaresResource
 from modules.apis.generos import GenerosResource
 from modules.apis.carreras import CarrerasResource
 from modules.apis.tipos import TiposResource
+from modules.apis.carreras_noRelacionadas import CarrerasNoRelacionadasResource
+
 
 from modules.models.base import db 
 from config import db_connector, db_user, db_password, db_ip_address, db_name
@@ -54,6 +56,8 @@ def create_app():
 	api.add_resource(GenerosResource, '/api/generos')
 	api.add_resource(CarrerasResource, '/api/carreras', '/api/carreras/<string:carrera_type>')
 	api.add_resource(TiposResource, '/api/tipos')
+	api.add_resource(CarrerasNoRelacionadasResource, '/api/carrerasnorelac', '/api/carrerasnorelac/<string:carrera_type>')
+
 
 
 

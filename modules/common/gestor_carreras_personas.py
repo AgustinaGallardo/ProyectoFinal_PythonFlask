@@ -132,13 +132,13 @@ class  gestor_carreras_personas(ResponseMessage):
     def obtener_pagina(self, pagina, **kwargs):
         query = personasCarreras.query.filter_by(persona_id=kwargs['persona_id']).filter(personasCarreras.activo==True) #traigo solo si la personacarrera esta activa en tabla personascarreras.
         if 'programa' in kwargs:
-            query = query.join(Carrera).filter(Carrera.activo==True).join(Programa).filter(Programa.nombre.ilike(f"%{kwargs['programa']}%")) #traigo solo si la carrera relacionada a esta persona tambiene esta activa en tabla Carreras
+            query = query.join(Carrera).filter(Carrera.activo==True).join(Programa).filter(Programa.activo==True).filter(Programa.nombre.ilike(f"%{kwargs['programa']}%")) #traigo solo si la carrera relacionada a esta persona tambiene esta activa en tabla Carreras
         if 'facultad' in kwargs:
-            query = query.join(Facultad).filter(Facultad.nombre.ilike(f"%{kwargs['facultad']}%"))
+            query = query.join(Facultad).filter(Facultad.activo==True).filter(Facultad.nombre.ilike(f"%{kwargs['facultad']}%"))
         if 'universidad' in kwargs:
-            query = query.join(Universidad).filter(Universidad.nombre.ilike(f"%{kwargs['universidad']}%"))
-        # if 'campus' in kwargs:
-        #     query = query.join(Carrera).join(Campus).filter(Campus.nombre.ilike(f"%{kwargs['campus']}%"))
+            query = query.join(Universidad).filter(Universidad.activo==True).filter(Universidad.nombre.ilike(f"%{kwargs['universidad']}%"))
+        if 'campus' in kwargs:
+            query = query.join(Campus).filter(Campus.activo==True).filter(Campus.nombre.ilike(f"%{kwargs['campus']}%"))
         # if 'rol' in kwargs:
         #     query = query.join(TipoPersona).filter(TipoPersona.nombre.ilike(f"%{kwargs['rol']}%"))         
         personacarreras, total_paginas = personasCarreras.obtener_paginado(query, pagina, registros_por_pagina)

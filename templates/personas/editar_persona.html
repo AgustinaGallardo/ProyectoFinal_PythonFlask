@@ -65,19 +65,23 @@
             <input type="hidden" name="persona_id" value="{{ persona.id }}">
             <!-- para evitar que el idPase a none al filtrar -->
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <input type="text" class="form-control" name="universidad" placeholder="universidad"
                         value="{{ filtros.get('universidad', '') }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <input type="text" class="form-control" name="facultad" placeholder="facultad"
                         value="{{ filtros.get('facultad', '') }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <input type="text" class="form-control" name="campus" placeholder="campus"
+                        value="{{ filtros.get('campus', '') }}">
+                </div>
+                <div class="col-md-2">
                     <input type="text" class="form-control" name="programa" placeholder="programa"
                         value="{{ filtros.get('programa', '') }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
                 </div>
             </div>

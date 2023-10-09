@@ -69,9 +69,12 @@ def generar_excel():
     }
     universidades=gestor_universidades().obtener_todo_por_filtro(**filtros)
     universidades_data=[]
-    for universidad in universidades:
-        pd={}
-        pd["Nombre"] = universidad.nombre
-        universidades_data.append(pd)
+    
+    if(len(universidades) > 0): #valida que exista al menos un registro, sino se rompe
+        for universidad in universidades:
+            pd={}
+            pd["Nombre"] = universidad.nombre
+            universidades_data.append(pd)
 
-    return exportar.exportar_excel(universidades_data)
+        return exportar.exportar_excel(universidades_data)
+    return redirect(url_for('routes_universidades.obtener_lista_paginada'))

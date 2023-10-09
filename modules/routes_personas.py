@@ -33,10 +33,12 @@ def obtener_lista_paginada():
 def editar_persona():
     persona_id = request.args.get('persona_id', type=int)
     page = request.args.get('page', default=1, type=int)
+    campus = request.args.get('campus', default="", type=str)
     programa = request.args.get('programa', default="", type=str)
     facultad = request.args.get('facultad', default="", type=str)
     universidad = request.args.get('universidad', default="", type=str)
     filtros = {
+        'campus': campus,
         'programa': programa,
         'facultad': facultad,
         'universidad': universidad,
@@ -203,18 +205,22 @@ def generar_excel():
     }
     personas=gestor_personas().obtener_todo_por_filtro(**filtros)
     personas_data=[]
-    for persona in personas:
-        pd={}
-        pd["Nombre"] = persona.nombre
-        pd["Apellido"] = persona.apellido
-        pd["email"] = persona.email
-        pd["Edad"] = persona.age
-        pd["Fecha nacimiento"]=persona.birthdate.strftime('%d/%m/%Y') 
-        pd["Genero"]=persona.genero.nombre
-        pd["Pais"]=persona.lugar.pais.nombre
-        pd["Provincia"]=persona.lugar.provincia.nombre
-        pd["Ciudad"]=persona.lugar.ciudad.nombre
-        pd["Barrio"]=persona.lugar.barrio.nombre
-        personas_data.append(pd)
 
-    return exportar.exportar_excel(personas_data)
+    if(len(personas) > 0): #valida que exista al menos un registro, sino se rompe
+
+        for persona in personas:
+            pd={}
+            pd["Nombre"] = persona.nombre
+            pd["Apellido"] = persona.apellido
+            pd["email"] = persona.email
+            pd["Edad"] = persona.age
+            pd["Fecha nacimiento"]=persona.birthdate.strftime('%d/%m/%Y') 
+            pd["Genero"]=persona.genero.nombre
+            pd["Pais"]=persona.lugar.pais.nombre
+            pd["Provincia"]=persona.lugar.provincia.nombre
+            pd["Ciudad"]=persona.lugar.ciudad.nombre
+            pd["Barrio"]=persona.lugar.barrio.nombre
+            personas_data.append(pd)
+
+        return exportar.exportar_excel(personas_data)
+    return redirect(url_for('routes_personas.obtener_lista_paginada'))

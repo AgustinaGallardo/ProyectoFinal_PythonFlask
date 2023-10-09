@@ -69,9 +69,13 @@ def generar_excel():
     }
     programas=gestor_programas().obtener_todo_por_filtro(**filtros)
     programas_data=[]
-    for programa in programas:
-        pd={}
-        pd["Nombre"] = programa.nombre
-        programas_data.append(pd)
 
-    return exportar.exportar_excel(programas_data)
+    if(len(programas) > 0): #valida que exista al menos un registro, sino se rompe
+
+        for programa in programas:
+            pd={}
+            pd["Nombre"] = programa.nombre
+            programas_data.append(pd)
+
+        return exportar.exportar_excel(programas_data)
+    return redirect(url_for('routes_programas.obtener_lista_paginada'))

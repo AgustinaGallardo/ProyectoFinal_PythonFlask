@@ -3,7 +3,7 @@
 {{ universidades }}
 {{ campus }}
 {{ programas }}
-{% import 'comun/carreras.html' as carrerasSelect %}
+{% import 'comun/carreras_noRelacionadas.html' as carrerasSelect %}
 
 {% block content %}
 <div class="container p-2">
@@ -13,7 +13,9 @@
         <input type="hidden" name="accion" value="crear_carrera">
 
         <div class="row mb-3">
-            {{ carrerasSelect.campos_carreras("", "", "", "") }}
+
+            {{ carrerasSelect.campos_carrerasNorelacionadas('', '', '', '') }}
+
         </div>
 
         <div class="col mb-3 text-center">

@@ -69,9 +69,13 @@ def generar_excel():
     }
     campus=gestor_campus().obtener_todo_por_filtro(**filtros)
     campus_data=[]
-    for campus in campus:
-        pd={}
-        pd["Nombre"] = campus.nombre
-        campus_data.append(pd)
 
-    return exportar.exportar_excel(campus_data)
+    if(len(campus) > 0): #valida que exista al menos un registro, sino se rompe
+
+        for campus in campus:
+            pd={}
+            pd["Nombre"] = campus.nombre
+            campus_data.append(pd)
+
+        return exportar.exportar_excel(campus_data)
+    return redirect(url_for('routes_campus.obtener_lista_paginada'))

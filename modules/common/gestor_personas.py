@@ -211,11 +211,13 @@ class gestor_personas(ResponseMessage):
 		if not self._validar_birthdate(kwargs['birthdate']):
 			return self.obtenerResultado()
 
-		genero=Genero.crear_y_obtener(nombre=kwargs['genero'])
 		print("genero en kwargs:")
 		print(kwargs['genero'])
-		print("genero resultado .crear_y_obtener:")
-		print(genero)
+		genero=Genero.crear_y_obtener(nombre=kwargs['genero'])
+		# print("genero en kwargs:")
+		# print(kwargs['genero'])
+		# print("genero resultado .crear_y_obtener:")
+		# print(genero)
 
 		pais=Pais.crear_y_obtener(nombre=kwargs['pais'])
 		print("pais en kwargs:")
@@ -236,7 +238,9 @@ class gestor_personas(ResponseMessage):
 		email = new_email
 		birthdate = datetime.strptime(new_birthdate, '%d-%m-%Y').isoformat()
 		personal_id = kwargs['personal_id']
-		print("ESTOY EN gestor_personas def crear(self, **kwargs):")
+		print("nueva_persona = Persona(nombre=nombre, apell")
+		print(genero)
+		print(lugar)
 		nueva_persona = Persona(nombre=nombre, apellido=apellido, email=email, birthdate=birthdate, personal_id=personal_id, genero=genero, lugar=lugar)
 	
 		resultado_crear=nueva_persona.guardar()
